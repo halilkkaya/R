@@ -3,14 +3,14 @@ install.packages('rstatix')
 library(rstatix)
 library(tidyverse)
 
-# ayk??r?? degerleri buluyor bu fonksiyon
+# aykiridegerleri buluyor bu fonksiyon
 outliers <- identify_outliers(heart['chol'])
 outliers
 # bunlar aykiri degerler. bunlari veriden cikaralim
 
 
 # outliers degiskeninden gordgumuze gore en dusuk aykiri deger 394.
-# biz de 394den buyuk olan degerleri bu sekilde silip att??k
+# biz de 394den buyuk olan degerleri bu sekilde silip attik
 df <- heart %>% filter(chol < 394)
 df
 
@@ -18,14 +18,14 @@ df
 max(df$chol)
 # max degerim 360 oldu. aykirilari attik
 
-# burada yaslara gore gruplara ay??rd??k verilerimizi
+# burada yaslara gore gruplara ayirdik verilerimizi
 df_new <- df%>% group_by(
   age_groups=cut( age, breaks = seq(min(age)-1, max(age)+1, length.out = 4)))
 #min(age)-1 veya max(age)+1 dememizin sebebi o yaslari da dahil etmeye calismamiz
 
 View(df_new)
 
-#yas gruplar??n?? kontrol ettik
+#yas gruplarini kontrol ettik
 levels(df_new$age_groups)
 
 # varsayim testlerimizi yapalim
@@ -81,7 +81,7 @@ boxplot(df_clean$chol~df_clean$age_groups)
 # bagimlidegisken~bagimsiz degisken seklinde yazicaz ha
 
 bartlett.test(df_clean$chol~df_clean$age_groups)
-# H0: homojen varyansd??r
+# H0: homojen varyansdir
 # Ha: homojen varyans degildir
 # p degerimiz 0.97 yani homojen varyanslidir
 
@@ -113,7 +113,7 @@ anov
 # residuals degerler yani artik degerlerimiz de var. artik degerlerin
 # de normalligi bulunabilir. eger artiklar da normal dagiliyosa bu 
 # gerceklesmis anova testidir der bazi kaynaklar
-# Residual standard error yani residuallar??n standartlastirilmis hatalari
+# Residual standard error yani residuallarin standartlastirilmis hatalari
 # bulur. 
 
 
@@ -178,10 +178,10 @@ summary(anov)
 anova_test(df_clean_df,dv = chol, between = age_groups)
 # ges 0.032
 
-# anlami bag??ms??z degiskenimiz bagimli degiskenimizi ne kadar etkiliyor
+# anlami bagimsiz degiskenimiz bagimli degiskenimizi ne kadar etkiliyor
 # onu veriyor
-# yani yas gruplari kolestrolu ne kadar etkilemis onun oran??n?? soyluyor
-# yas gruplar?? kolestrolu 0.03 etkiliyor
+# yani yas gruplari kolestrolu ne kadar etkilemis onun oranini soyluyor
+# yas gruplari kolestrolu 0.03 etkiliyor
 # https://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/effectSize#:~:text=The%20general%20rules%20of%20thumb,squared%20than%20to%20eta%2Dsquared.
 # bu internet sitesinde 0.01 az 0.06 orta 0.14 cok etkiliyor diyor.
 # diger testler icin de ne anlama geldigi yaziyor. dursun site
@@ -235,7 +235,7 @@ anova_test(final,dv = "Scores", within = 'Groups',wid = 'id')
 
 
 # ikinci ve ucuncu satirda farkli sonuc var
-# kureselligi ??l????yo kuresellik testleri de denebiliyor
+# kureselligi olcuyo kuresellik testleri de denebiliyor
 # f skoru uzerinden yazpilir
 # ayri tetsler hepsnin ayri p degerleri fln var duzeltme yapip oyle 
 # sonucluyolar. f skoru duzeltmesitle yapiyo. 
@@ -301,7 +301,7 @@ library(rstatix)
 # varsayim testlerini yapalim normallik homojenlik fln
 df <- heart %>% filter(chol<394)
 
-# gruplar?? cp ve fbs olarak ay??rd??m. 
+# gruplari cp ve fbs olarak ayirdim. 
 # cp 3 fbs 1
 # cp 3 fbs 0 gibi olcak yani
 # ve hepsine tek bi islemde shapiro normallik testi yapcam
@@ -309,7 +309,7 @@ df %>% group_by(cp,fbs) %>% summarise(shap= shapiro.test(chol)$p.value)
 # tum deegrler icin p degerim 0.05den yuksek geldi yani hepsi normal dagilim gosteriyor
 
 bartlett.test(df$chol~interaction(df$cp,df$fbs))
-# interaction ben??m * sandigim gorevi yap??yor. iki grubu aliyor
+# interaction benim * sandigim gorevi yapiyor. iki grubu aliyor
 # p degerim 0.52 yani homojen varyansli diyoruz
 
 
@@ -450,7 +450,7 @@ bartlett.test(heart$oldpeak~heart$cp)
 a <- kruskal.test(heart$oldpeak~heart$cp)
 # H0: gruplardaki medyanlar ayni, grup etkisi yok
 # Ha: gruplardaki medyanlar farkli, grup etkisi var
-# p degerim 0a yak??n geldi H0 reddedildi Ha kabul edildi.
+# p degerim 0a yakin geldi H0 reddedildi Ha kabul edildi.
 # medyanlarindan en az biri farklidir
 
 
