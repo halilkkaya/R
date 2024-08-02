@@ -1,0 +1,438 @@
+############## matematiksel i??lemler############
+
+x <- 5
+y <- 15
+
+
+y-x # 10 verir, normal diller gibi -+*/ i??lemleri yap??l??yor
+y/x #3
+y*x #75
+y+x #20
+
+y**2 # 225 karesini al??yor
+y**3 #3375 k??p??n?? al??yor
+
+z <- 12**2
+
+
+sqrt(z) # 12 karek??k al??r
+
+ 
+t<- -3*6 #eskiye duyarl??
+t 
+
+t**2 #karesini ald??m art?? oldu 324
+t/5  #-3.6 verdi. nokta kullan??l??yo ondal??k i??in
+
+
+############### vekt??rlerde matematiksel i??lemler###########
+
+x <- c(12,54,67,43,35)
+x
+x+5 #her bi de??erine 5 atar
+x-2 #her de??erinden 2 ????kar??r
+x**2 #hepsinin karesini al??r
+x*5 #hepsi 5 ile ??arpar
+x/5 #5e b??ler hepsini
+x**3 #hepsinin k??p??n?? al??r
+
+y <- x**2 #yye xin karesinin al??nm???? hali atan??r
+x #x ayn?? kal??r
+y#yeni de??erler ydedir
+
+z <- x + 15
+z
+x
+x + z #ayn?? indisteki say??lar?? birbiri ile toplar
+x*z # ayn?? indisleri ??arpar 
+x/z#b??ler
+
+x1 <- c(13,24,35,56)
+x2 <- c(12,23)
+
+x1+x2 #s??ras??yla 1,2,1,2 ??eklinde toplama yapm????. yani a????klamak gerekirse
+# 13+12,24+23,35+12,56+23 ??eklinde toplar. 
+# x1-1 ile x2-1, x1-2 ile x2-2, x1-3 ile x2-1, x1-4 ile x2-2 ??eklinde olur
+
+x1*x2 #??stteki gibi yapt??.
+
+x3 <- c(13,24,35,56)
+x4 <- c(12,23,24)
+x3+x4 #ikisi aras??nda kat fark?? olmad?????? i??in uyar?? veriyor.
+#ama yine de i??lemi ger??ekle??tiriyor.
+#yine ??stteki mant??kla d??????n??nce say??ca ??ok olana say??ca az olan??n ba??lang???? 
+#de??erleri geliyor.
+#di??er i??lemler de bu ??ekilde ger??ekle??iyor.
+
+
+
+####### vekt??rlerin uzunluklar??n?? elde etme##########
+x <- c(1,2,3,4,5,6,7)
+
+length(x) #7 sonucu d??n??yor
+
+x1 <- c(11,22,33,551,5,15,15,4151,151,165,51,54)
+
+length(x1) #12 elemanl??ym????
+
+x2 <- c('a','b','d','b',
+        'a','b','d','b',
+        'a','b','d','b',
+        'a','b','d','b',
+        'a','b','d','b',
+        'a','b','d','b',
+        'a','b','d','b',
+        'a','b','d','b',
+        'a','b','d','b')
+length(x2) #36 tane eklemi??iz 
+x2[length(x2)] #son eleman?? se??er
+
+len <- length(x2)
+x2[len-1] #sondan bir ??nceki eleman
+
+
+################ vekt??rlerin min-max de??erleri############
+
+x <- c(2,35,32,62,51,95,61,5,99,159)
+x
+
+#min ve max de??erleri verir
+min(x)
+max(x)
+
+y <- c(-1,-10,0,6,-95,97)
+min(y)
+max(y)
+
+
+min(y)+max(y)
+
+min(y)+max(y)/min(y) #i??lem ??nceli??i vard??r. ??nce n??lme sonra toplama
+#parantez koyarsan ??nce parantez i??i yapar
+
+
+################# vekt??rlerde de??erin hangi indiste bulumas??############
+
+x <- c(12,34,56,45,78,54)
+x
+
+y = 5
+y == 5 #true d??nd??r??r. y 5e e??it mi denir
+
+x == 5 #e??er 5 yoksa indis say??s?? kadar false d??nd??r??r
+#6 indisli bi vekt??r bu 6 tane false d??nd??rd??
+
+x==12 # ilki true gerisi false geldi.
+
+which(x==5) #integer 0 diyo yani i??eride 5 yok
+which(x==56) #3. de??er oldu??unu d??nd??r??yor
+
+which.max(x) #5. de??er max iye d??nd??r??yor
+which.min((x)) #1. de??er min diye d??nd??r??yor
+
+t <- c(5,15,35,64,5)
+which(t==5) # 1 ve 5te var dedi. iki tane var cunku
+
+bes = which(t==5)
+t[bes] #5 5 seklinde bi vektor geliyo
+t(bes) #1 ve 5 d??nd??r??yo. i??erisinde 5 bulunan indis say??lar??yd?? bunlar.
+
+t[t==5] #5e e??it olanlar?? verir yine
+
+class(t==5) #logical t??r??
+
+
+
+############## vekt??rlerde b??y??k/k??????k i??aretleri##############
+
+x <- c(23,45,67,89,23,14,25)
+x
+
+x==45
+
+x>45 #45den b??y??k olanlar i??in true k??????k ve e??it olanlar i??in false d??nd??r??yor
+x<45#45den k??????k olanlar i??in true b??y??k ve e??it olanlar i??in false d??nd??r??yor
+
+x>=23 #23ten b??y??k ve e??itler i??in true k??????klere false
+x<=45 #k??????k ve e??it true b??y??k false
+
+x!=23 #e??it de??ilse true, e??itse false. e??it de??il mi diye sorduk cunku
+
+x[x>45] #sadece 45den b??y??kleri verir
+
+x[x>=45] #b??y??k ve e??itleri verir
+
+x[x!=45] #45 olmayanlar?? getir
+
+############# b??y??k/k??c??k elamanlar??n indislerini bulma #############
+
+x <- c(10,35,64,9,25,36)
+x
+
+
+which(x==64) 
+which(x>35) # 3 ve 6. s??ra b??y??k diyo
+
+on<-which(x>10)
+x[on] #ondan b??y??k say??lar?? verir
+
+x[which(x==65)] #bo?? veriyo
+
+kucuktur <-  which(x<25)
+
+x[kucuktur] #25den kucukleri verir
+
+
+########### vekt??rlerde karakterlerde b??y??k/k??????k kullan??m??###########
+
+x <- c('A','B','C','D','E')
+x
+
+'Bb' =='BB' #false d??nd??r??r
+
+'a'=='a' #true dondurur
+
+x == 'B' #s??ras??yla indislere false true false dalse... yazar
+
+which(x=='A') #ilk indis A diyo
+
+which(x>'A') #alfabetik s??raya g??re gider
+#a=1,b=2,c=3 ??eklinde d??????nelim. bu kod a d??????ndakileri verir
+which(x>'D') #sadece E harfini verdi??
+which(x<'D') #a b c verdi
+which(x<='D') #ek olarak dyi de verdi
+
+
+'Ad' < 'Ar' # farkl?? olan yere kadar ayn?? gider. ilk farkl?? harften hangisi 
+#alfebetik say??molarak ??ndeyse o k??????kt??r
+
+
+'A' < 'a' #k??????kler daha b??y??k say??l??yormu??, ??imdi ????rendik.
+#videolarda b??y??kler daha b??y??k say??l??yor. burda k??????kler.
+#i??in i??erisinde bir ??eyler var ama anlamad??m
+'Ab' >'AB' #true d??nd??
+'aB' > 'Ab' #true d??nd??
+'Ab' < 'AB' #false d??nd??
+
+
+
+x<- c('A','B','C','D','A','F','Y')
+
+x > 'Y' #false d??nd?? hepsi
+x > 'X' #sadece y true d??nd??
+
+which(x>'D') #6. ve 7. indis Dden b??y??k demek
+which(x>'d') #yok dedi
+which(x<'d') #hepsini verdi
+x [x>'X'] #sadece Y yazd??
+x[which(x=='A')] #iki tane verdi. 2 tane A var cunku
+
+
+'Sergen' <'Ahmet' #false
+'Sergen'<'Serkan' #true
+'SeRgen'<'Serkan' #true d??nd??rd??. 
+
+'A'>'a' #false. CHATGpt beni do??rulad??
+
+
+########### ard??????k de??erleden olu??an vekt??r olu??turma############
+
+1:23 #1den 23e gider
+
+-2:5 #-2den ba??lar 5e kadar gider. 0 da dahildir i??ine
+
+seq(10) #1den 10a kadar yazar
+seq(2,15) #2den 15e kadar yazar
+seq(-10) #1deb ba??lar -10a kadar 1,0,-1,-2... ??eklinde gider
+ 
+x <- seq(-4,5)
+x
+ seq(from= 0, to=10)
+ 
+ df <- data.frame(a=c(1,2,3,4,5), b=c(34,35,36,25,12))
+df
+
+df <-df[-3,] #3. sat??r?? sildik
+df
+
+uz<-length(df$a) #sat??r say??s??n?? ald??k
+uz
+
+row.names(df) #sat??r isimlerini verir.
+row.names(df) <- seq(from = 1, to=uz) #sat??r isimlerini de??i??tik
+#3. sat??r?? silince 1,2,4,5 kalm????t?? sat??r isimleri
+#onlar?? 1,2,3,4 yapt??k burda
+df
+
+######## belirli bi de??er ile artan ard??????k vekt??rler##############
+
+seq(10) #1den 10a kadar
+
+?seq
+
+
+seq(from=2,to = 20,by =3) #2den ba??la 20ye kadar 3er 3er art
+
+seq(from=1, to=20, by=2) #1den 20ye kadar 2??er art.
+
+y<- seq(from=0.30,to=10.79,by=0.001) #baya bi var 
+length(y) #10491 say?? varm????. 
+y[length(y)] #son indisi ka?? demek
+
+t<- seq(from = 1,to=10,length.out=30) #1 ile ba??la 10a kadar ama arada 30 say?? olsun demek bu. 
+length(t) #30 tane mi diye kontrol ettik
+
+seq(from=1,to=10,by=20)#tek de??er veriri
+seq(from =1,to=20,by=4, length.out=20) #20 tane eleman olu??turamaz. o y??zden hata
+seq(from=1,to=20,by=4,length.out=3)#3den daha fazla eleman olu??turuyo o yuzden hata
+#seq fonskiyonunda by ile length.out k??sm?? ayn?? anda olamaz. hep hata verir
+seq(from =0,to=20,by=4,length.out=6)# normalde 6 de??er veriyo 0dan baslay??p 20ye kadar
+#biz de 6 de??er ver dedik ama yine hata. ayn?? anda kullan??lmaz
+
+
+################### vekt??r de??erlerinin rastgele s??ralanmas??###########
+seq(from=1,to=10,by=2)#belirli artma bu 
+x <- seq(from =100,to=300,by=10)
+x
+sample(x) #x vekt??r??n?? kar??????k olarak verir
+sample(x,replace = TRUE) #yine kar??????k ama de??er tekrarlama da var
+sample(x)
+sample(x)#her seferinde farkl?? veriyo
+
+y <- sample(x)
+y#farkl?? olan de??erler buna atan??yo. kal??c?? halde duruyo ve her seferi,nde de??i??miyo art??k
+
+
+############### vekt??rlerde rastgele ??rnek se??imi ve set.seed()##########
+
+
+x <- seq(from=10,to=200, length.out=50)
+x
+length(x)#kontrol ettik 50 eleman var harbi
+
+sample(x) #rastgele s??ralama
+
+y <-sample(x,size=1)#rastgele 1 eleman ver, her seferinde farkl?? verir
+y
+which(x==y) #rastgele atatd??????m??z say??n??n hangi indiste oldugunu hulduk
+
+which(x==sample(x,size = 1)) #her seferinde farkl?? say?? atad?????? i??in
+#farkl?? indisler buluyor
+
+set.seed(165) #s??rekli de??i??mesin istiyorsak bunla beraber ??al????t??rmak gerek.
+sample(x,size = 1)#??nce setseed sonra buna bas??nca 185 veriyo sadece
+#sadece sample bas??nca farklo de??erler veriyo
+
+set.seed(175) #175'in anlam?? ??u. her 175 yazd??????m??zda belirli bi say?? vericek
+#burdaki i??lemce 137.9592 say??s??n?? veriyor mesela. ba??ka ??rnek yapal??m
+sample(x,size=1)
+
+set.seed(2)
+sample(x,size=1) #bu ??rnekte de 2'say??s??n?? verdi??imizde hep 87.55102 verecek
+
+set.seed(2)
+sample(x,size = 1)#yeni kod yazd??m mesela 2 verip yine 87 verdi
+
+sample(x,size = 20)# 20 tane veriyo kar??????k
+sample(x,size = 60)#60 eleman yok, hata verir amaaa
+sample(x,size = 60,replace = TRUE)#dersek ayn?? elemanlar?? yeniden yazd?????? i??in verir
+
+set.seed(165) 
+which(x==sample(x,size = 1)) #setseed(165) olan de??erin xdeki indisi ka?? onu buluyoz 
+
+
+
+
+############# tekrar eden de??erlerden olu??an vektor ve seriler####
+
+rep(4,14) #14 kere 4 yazar
+r <- rep(4,14)
+length(r) #kontrol ettik 14 tane var 
+
+x <- c(34,23,45,67)
+rep(x,2) #2 kere de??erleri s??ras??yla yazar
+
+rep(sample(x),2) # verileri kar????t??r??p 2 kere tekrarlat??r. kar????t??rd?????? ??ekli
+#alarak tekrarl??yo
+
+rep(x,each=2) #her biri 2 kere tekrar etsin dedik. 34,34,23,23... e??klinde
+rep(x,3,each=2) #her bi de??eri yanyana 2 kere toplam 3 kere tekrar et
+#34 34 23 23 45 45 67 67 ??ekli 3 kere d??ncek demek bu
+?rep
+
+sample(rep(x,2)) #her birini 2 kere ama kar????t??rarak veriyo
+sample(x,4,replace = TRUE) #tekrar a????k 4 say?? ver dedik bu da ??nceki konu
+#kar????la??t??rmak i??in koydum
+
+####### vekt??rlerin b??y??ktrn k????????e/k??????kten b. s??aralanmas?? #########
+7
+x<-c(12,36,54,69,32,65,15,02)
+
+sort(x)# varsay??lan olarak k??????kten b??y????e s??ralar
+
+sort(x, decreasing = TRUE)#b??y??kten k????????e oldu
+
+sort(x,T)#yine b??y??kten k????????e s??ralama
+
+y <- c('Osman','Ahmet','Mehmet','Berk')
+y
+
+sort(y) #alfabetik olarak k??????k olandan ba??lad?? A  hmet ile yani d??????n artarak gibi
+sort(y,T) #azalarak oluyo Osman ile ba??lad??
+
+na <- c(12,35,NA,25,265,NA,NA)
+sort(na) #NA de??erlerini hesaba katm??yor.
+
+sort(na, T, na.last = NA) #NA de??erlerini almaz
+sort(na, T, na.last = T) #NA de??erlerini al??r
+sort(na, T, na.last = F) #NA de??erlerini al??r, na.last F oldu??u i??in en ba??a atar NAlar??
+sort(na, F, na.last = T) #NA de??erlerini al??r NAlar wn sonda na.last T cunku
+
+sort(na,decreasing = T, na.last = T, index.return =T)
+#$x [1] 265  35  25  12  NA  NA  | $ix [1] 4 2 3 1 5 6
+#??eklinde verir cevab??. yani ilk yerde 265 vermi?? o 4. indiste yer al??yo demek
+#35 say??s?? 2. indiste NAlar ise 5 ve 6. indiste diyor. vektoru en ba??ta
+#olu??turdu??umuz s??ray?? veriyo yani
+
+siralama <- sort(na,decreasing = T, na.last = T, index.return =T)
+siralama #atama yapt??k
+
+class(siralama) #list verdi
+
+siralama[['x']] #de??erleri veriyor
+siralama[['ix']] #indisleri veriyor
+
+
+siralama[['x']][1] #s??ralamaya g??re ilk say??y?? ald??m
+siralama[['ix']][1] # s??ralamaya g??re ilk say??n??n indisini ald??m
+
+
+
+
+
+
+
+
+
+
+
+############# soru ######
+#20 ile 300 aras??nda ard??????k olarak artan ve uzunlu??u 200 olan bir vekt??r olu??turunuz.
+
+#Olu??turdu??unuz vekt??r ??zerin uzunlu??unu kontrol ediniz.
+
+#Olu??turulan vekt??rden 50 adet rastgele ??rnek al??n??z ve bu vekt??r?? yeni bir nesneye kaydediniz.
+
+#Rastgele al??nan ??rneklerden, 100'den b??y??k olan elemanlar?? ve vekt??rde bulunduklar?? indeksleri elde ederek bir nesne i??erisinde kaydediniz.
+
+
+
+x<-seq(from =20, to=300,length.out=200)
+length(x)
+y<-sample(x,50)
+y
+y1<- y[y>100]
+y1
+z<-which(y>100)
+z
+

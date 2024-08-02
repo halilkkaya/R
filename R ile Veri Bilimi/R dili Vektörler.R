@@ -1,0 +1,152 @@
+
+############### vektorler ############
+y = c(1,2,3,4,5) # y i??erisine c fonksiyonu ile (1,2,3,4) ekledik
+y
+
+z <- c(10,20,30,40) #okun y??n?? ile atama yap??yoruz.
+c(10,20,30,40) -> a
+
+t <- c("A",'D','F',"D")
+t
+
+e <- c("A","B",2,3,4,"D") # bu ??ekilde kullansak da say??lar?? karakter olarak alg??l??yor
+e
+
+c(34,45,,67) # arg??man 3 bo?? hatas?? veriyor.
+
+
+####VEKTORLERDE ELEMAN SE????M??. BA??LARKEN YUKARIDAK??LER?? SIFIRLADIM.####
+ x <- c('a','b','c')
+x[1] #ilk eleman??n?? verir
+x[2] #ikinci eleman se??imi
+x[3]#??????nc?? eleman se??imi
+
+
+y <- c(1,2,3,4,5,6,7,8,9,10)
+
+y[1:3] #birinci ve ??????nc?? elemanlar ve aras??
+y[4:9]# d??rd??nc?? ile dokuzuncu elemanlar ve aras??
+
+y[c(5,6,7,8)] #ynin i??erisinden 5,6,7,8. elemanlar?? al??yor
+
+
+t<-c(11,12,13,29,25,29,30,31,32)
+
+t[c(4,8,9)]# tnin i??erisinden 4,8,9. elemanlar?? al??yor
+
+t[c(4,8,15)] #tnin i??erisindeki elemanlar?? getiriyo ancak 15. eleman yok
+#15. eleman yerine NA yazar yani eleman yok demek
+
+
+t[c(1:3,8)]# 1 ile ???? aras??n?? getir ve 8. eleman?? da getir demek
+t[c(2:5,7,8:10)]#2 ile 5. eleman aras??, 7. eleman, 8 ile 10. eleman aras?? demek.
+
+
+#### VEKT??RLERDEN ELEMAN ??IKARTMA ####
+
+x<- c(12,13,14,15,16)
+#eleman se??imi
+x[1]
+x[5]
+
+#eleman ????kartma i??lemi
+x[-1] #ilk eleman d??????ndakileri veriyor
+x[-5] #5. eleman d??????ndakileri veriyor. bunlar kal??c?? de??il. sadece sonu?? veriyor.
+
+#kal??c?? hale getirmek i??in tekrar atanmal??
+x <- x[-1]
+x #kal??c?? olarak ilk indis ????kar
+
+x <- x[-5]
+x #5 eleman yok art??k. 4 eleman var o uy??zfen burda bir ??ey silmeyecek.
+
+x <- x[-4]
+x #4 elemana d????t?????? i??in son indis 4 oldu. son say??y?? sildik.
+
+
+x<- c(12,13,14,15,16)
+
+x <- x[-1:-3]
+x # 1 ile 3 indisleri ve aras??ndakiler siler
+
+x <- x[-c(1:3)]
+x #yine ??sttekiyle ayn??. 1 ile 3 indisleri ve aras??ndakiler siler
+
+y <- x[-1]
+y #x'in ilk eleman??n??n ????kar??lm???? halki y'ye atan??r.
+
+x;y #ikisini birde ??al????t??r.
+# tek sat??rda birden fazla kod i??in oktal?? virg??l gerek.
+
+x <- x[c(-1,-2,-3)]
+x #birde ??ok indisi se??erek ????kartma
+
+cikartilacak <- c(2,3,1)
+x[-cikartilacak]#de??i??kene atay??p ba????na - koyup ??yle ????kartt??k
+#kal??c?? ????kartma i??in yine ba????na atama operat??r?? koyabilirsin. 
+
+
+
+#### VEKT??RLERDE ELEMANLARINI DE??????T??RME #######
+
+x <- c(10,11,21,32,43,56)
+x
+
+x[2] <- 33
+x #normalde 11 olan 2. indis de??erini 33 ile de??i??tik.
+
+
+x[2:3] <- c(25,18)
+x #birden fazla de??eri de??i??tirmek i??in kulland??k
+
+
+x[c(2,3,5)] <- c(26,48,67)
+x #birden ??ok indise yeni say?? atama kodumuz.
+
+x[c(1,2,3,4,5,6)] <- 1
+x #t??m elemanlar 1 oldu
+
+x[c(1,2,3)] <- c(1,2)
+x # 1 ve 2yi 1. ve 2. elemana atam????. ayn?? zamanda tekrara d??????p 1i 3. elemana da atam????
+
+
+x[c(1,2)] <-c(25,36,48)
+x #sadece ilk iki eleman?? de??i??mi??
+
+x[1:3] <- 11:13
+x # ilk 3 elemana 11 12 13 at??yor
+
+
+####### VEKTORLERE YENI ELEMAN EKLEME######
+
+x <- c(11,22,33,44)
+
+x[length(x)+1] <- 55
+x #length ile son indisi buluyoruz ve 1 ekkliyoruz. yeni indis demek bu
+
+x[6] <- 66
+x
+
+
+x[7:10] <- c((7:10)*11)
+x #her birini 11 ile ??arp??p xe ekledik.
+
+x[ c((length(x)+1):(length(x)+3))] <- c(((length(x)+1):(length(x)+3))*11)
+x #her bir say??y?? 11 ile ??arp??p kendi indisine yaz dedik. 
+#ben buldum ??okiiiii 
+
+
+x[16] <- 15
+x #aradaki elemanlar bo?? kal??r NA yazar
+
+
+
+
+
+
+
+
+
+
+
+

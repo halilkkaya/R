@@ -1,0 +1,276 @@
+#### betimsel istatistikler toplam deger ve ortalama####
+x <- c(23,45,67,43,56)
+
+length(x) #ka?? adet veri bulundu??unu s??yler
+
+sum(x) #t??m elemanlar??n say??s??
+
+ortalama <- sum(x)/length(x)
+ortalama #ortalama 
+
+mean(x) #ortalama fonksiyonu buymu?? avg de??ilmi??
+
+#### serbestlik derecesi nedir? olcme nasil?####
+#g??zlem say??s??n??n 1 eksi??i = (N-1)
+#mesela 7 ??apka var hepsini 1 g??n kullancan daha kullanm??can
+#en son cumartesi 2 tane kald?? 1 tane se??tin pazar i??in se??me ??ans??n yok
+#elinde 1 tane kald??. bu da serbestlik de??il oluyo
+
+x <- c(1,2,3,4,5)
+length(x)
+
+sd<- length(x)-1
+sd #serbestlik derecesi
+
+
+#### standart sapma####
+x <- c(12,34,56,34,23,45)
+length(x)
+
+ort<-mean(x) #ortalama
+
+ss<-sd(x) #standart sapmay?? hesaplad??
+
+#standart sapma de??erlerin ortalamadan ne kadar sapt??????n?? g??steren bir istatistiktir
+
+# ortalamaya standart sapmay?? ekleyip c??karal??m yani;
+ort-ss #18.44 ????kt?? 
+ort+ss #49.55 ????kt??
+#anlam?? ??u bizim genel de??erlerimiz 18.44 ile 49.55 aras??nda oluyor
+x
+#de??erlere bak??yoruz ve evet genel olarak o aral??kta.
+
+#### varyans hesaplama ####
+
+# standart sapman??n karesidir
+
+#g??zlemlerin de??i??ikli??ini tan??mlayan numerik bir de??erdir
+
+#ba??ka bir de??imle g??zlemlerin ??rneklemde ne kadar yay??ld??????n?? g??steren de??er
+
+#standart sapmadan fark?? standart sapma veri set i??erisindeki g??zlemlerin
+#ortalamadan farkl??l??????n?? tan??mlar varyans ise de??i??kenli??i tan??mlar
+
+x <- c(12,14,10,11,13,17,16)
+length(x)
+
+sd1 <- sd(x) #standart sapma 2.56
+
+vr1<- sd(x)**2 #varyans??m 6.57. standart sapman??n karesiyle de hesaplan??yor.
+
+sd1
+vr1
+
+var(x) #varyans??m?? bulan fonksiyon. 6.57
+
+
+y <- c(12,25,60,56,35,24,45)
+length(y)
+sd2<-sd(y)
+vr2<-var(y)
+
+sd1;vr1;sd2;vr2 #hepsini tek tek ??al????t??r demek
+#standart sapma b??y??kse de??erler aras?? b??y??kt??r
+
+
+
+#### medyan, aciklik ve ceyreklikler####
+
+
+#medyan ortanca de??erdir
+#a????kl??k max de??erle min de??er aras??ndaki fark
+#??eyreklik serimizi 4 e??it par??aya b??ld????m??zde q1 q2 q3 q4 par??alar??d??r.
+
+x <- c(12,34,56,23,34,12,35)
+
+median(x) #ortanca de??er 
+mean(x) #ortalamas?? 29.42
+
+
+max(x)-min(x) #a????kl??k de??eridir.
+range(x) #en k??????kle en b??y??k eleman?? verir ama ????kartma yapmaz
+
+quantile(x) 
+#  0%  25%  50%  75% 100% 
+#12.0 17.5 34.0 34.5 56.0 
+#de??erini veriyor.
+
+quantile(x,probs = c(0.25,0.5,0.75)) #burdaki ????l??y?? verir
+
+quantile(x, probs = c(0.10,0.6,0.95) ) #burda da di??er isteklerimize g??re yan??t geliyor
+
+
+
+
+
+
+
+
+
+
+x <- c(12,13,14,15,16,100,120)
+x
+
+mean(x) #41 olarak bulduk. ??o??luklu de??er a??a????da saedece 2 say?? y??z??nden artt??.
+#b??yle durumlarda median kullanmak daha mant??kl??
+median(x) #15 ????kt??
+
+
+y <- c(12,15,17,18,20,24,26)
+ mean(y) #18.85 verdi ortalama
+median(y) #18 verdi 
+#birbirine yak??n de??erlerse bu ??ekilde medyan ve ortalama yak??n ????k??yor
+
+
+
+hist(x) #xi grafikle??tiriyor
+
+
+install.packages('e1071') #??apraz katsay?? i??in indirdik k??t??phane
+library(e1071) #??al????t??rd??k
+
+skewness(x) #??arp??kl??k katsay??s?? 0.78 buldu
+#ne dedik 0-1 aras?? sa??a ??arp??k demektir
+#yani veriler solda daha ??ok demektir. burda da 0.78 b??y??k bi say??d??r
+
+z <- c(1,2,3,60,70,60,70,80,70)
+
+hist(z) #grafik inceledik
+
+skewness(z)#-0.50 ????kt??
+#-1 ile 0 aras??ndaysa sola ??arp??k dedik yani veriler sa??da yo??un  
+
+
+
+
+
+
+#### siklik/frekans hesaplama ####
+
+x <- c(12,12,13,13,14,13,12,12,15,16)
+
+length(x)
+
+
+unique(x) #tekrarlananlar?? vermez
+
+table(x) #hangi veri ka?? kere tekrarland?????? yaz??yo. burdan da 
+#s??kl?????? bulabiliriz
+
+t <- table(x)
+t
+names(t) #hangi elemanlar var karakter olarak verir
+
+t[1] #ilk eleman?? verir.
+t[12] #de??er olarak yazarsan vermez
+t['12'] #bu ??ekilde ??al??????r.
+
+t[['12']] #tekrar say??s??na ula??????rz direkt
+
+c <- c('a','a','a','b','b','C')
+c
+t1<-table(c)
+t1['a'] #a ve ka?? kere tekjrar etti??i geliyo
+t1[['a']] #sadece tekrar say??s??
+
+#### kayip gozlemlerin hesaplamalara etkisi####
+
+x <- c(12,13,14,15,NA)
+sum(x) #sonu?? NA geldi. NA de??eri olmad?????? i??in toplanam??yo
+sum(x, na.rm = T) #<NA de??erlerini kald??r dedik. hesaplad??
+mean(x) #yine NA dedi
+mean(x , na.rm = T) #??al????t??. ortalama 13.5
+#ortalama al??rken NA y?? eleman olarak ald?? m??? bakal??m
+(12+13+14+15)/4 #13.5 geldi. NA de??erlerini alm??yor eleman say??s?? olarak!!!
+(12+13+14+15)/5 #10.8 geldi. NA eleman olarak say??lsayd?? b??yle c??kacakt??
+
+sd(x) #standart sapma hesab?? da NA geldi
+sd(x, na.rm = T)#NA de??erlerini almad??k ve 1.29 bulduk
+
+median(x) #yine NA
+median(x, na.rm = T) #13.5 verdi
+
+is.na(x) #false false true ??eklinde hangisi na ona true yaz??yo
+which(is.na(x))# hangi eleman NA onu bulduk
+
+y <- c(12,13,14,15,NA,NA,14,1,15,NA)
+which(is.na(y)) #5-6-10. indislerde na var diyor
+
+
+any(is.na(y)) #indexleri elde etmim sadece var m?? ypk mu bak demek i??in fonksiyon
+#true d??nd??. yani i??erisine girdi??imiz ko??ul do??ru ????kt??
+#i??eriye de na var m?? diye bak dedik. bakt?? ve tek sonu?? d??nd??rd??
+#varm????
+
+
+t <- c(1,2,3,4,5)
+any(is.na(t))
+#false dedi yani na de??eri yok
+
+mean(x, na.rm = any(is.na(x))) # ??nce kontrol ettik.
+#na var m?? yok mu kendimiz yazmak yerine kendi kendine yazd??rd??k
+#varsa oraya true yazd??rcak ve NAlar?? alma dicek
+#yoksa zaten NA yok d??nd??rcek
+
+
+#na lar yerine 0 de??eri atamas?? ??rnekleri
+is.na(x)
+which(is.na(x))
+x[which(is.na(x))] <- 0
+x
+
+is.na(y)
+which(is.na(y))
+y[which(is.na(y))] <- 0
+y
+
+y <- c(12,13,14,15,NA,NA,14,1,15,NA)
+y[is.na(y)]
+y[is.na(y)] <- 0
+y
+
+#### normal dagilan veriler####  
+
+r <- rnorm(100) #100 tane normal da????lan veri veriyor
+r
+
+length(r) #100 verdi
+hist(r) #ortalamaya yak??n de??erler var hep
+#rnorm default olarak al??nd??????nda ortalama 0 al??n??r
+#ve standart sapma 1 al??n??r ama istersek de??i??ebilirz
+
+r1 <- rnorm(30, mean = 10, sd = 3)
+#istedi??imiz de??erler ??er??evesinde verdi bize
+hist(r1) #10 cevresinde da????lm???? bi veri. normal da????l??m.
+
+
+####odev####
+#Bu ??dev ile ilgili sorular
+#100 adet rastgele normal da????lan bir de??i??ken (vekt??r) olu??turunuz ve bu vekt??r??n de??erlerini 
+#round() donksiyonu kullanarak en yak??n tam say??sa yuvarlay??n??z ve bu i??lemlerin kodlar??n?? cevap olarak belirtiniz.
+
+rastgele<-rnorm(100)
+
+tamsayi <- round(rastgele,0)
+tamsayi
+
+
+#Bir ??nceki soruda elde etti??iniz vekt??r??n ortalama, standart sapma, medyan, 
+#birinci ve ??????nc?? ??eyreklik de??erlerini bulunuz ve bu i??lemleri ger??kle??tirdi??iniz kodlar?? cevap olarak belirtiniz.
+
+mean(tamsayi) #ortalamas?? -0.22
+sd(tamsayi) #standart sapma 1.0008
+median(tamsayi) #0 verdi
+
+quantile(tamsayi, probs = c(0.25,0.75)) #1. ve 3. ??eyrekler
+
+#Elde etti??iniz medyan ve ortalama de??erini bir nesnede kaydederek aras??ndaki fark?? hesaplay??n??z. (Cevap olarak kodlar?? belirtiniz.)
+
+medyan <- median(tamsayi)
+ortalama <- mean(tamsayi)
+
+ortalama - medyan #-0,22 verdi
+medyan - ortalama #0.22 verdi
+
+
+
