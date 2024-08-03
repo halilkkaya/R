@@ -392,6 +392,7 @@ lines(lowess(airquality$Ozone,airquality$Temp), lwd=2,col='blue')
 #x ve y yeri normaldir
 #lowess ile iliskiyi belirleyip oyle cizdil. lowess cok onemli
 par(xpd=T)
+
 legend(x = 'topright',legend = levels(as.factor(airquality$Month)),
        col = c('blue','green','yellow','red','black'),
        pch = 19,
@@ -410,6 +411,7 @@ legend(x = 'topright', legend = c('dusuk','orta','yuksek'),
        )
 ?lowess
 lowess(airquality$Ozone,airquality$Temp)
+
 #cikan sonuclarda x degerleri grafikteki x
 #y degerleri grafikteki y degerleridir
 
@@ -600,7 +602,7 @@ prop.table(table(mtcars$gear))
 #      3       4       5 
 #0.46875 0.37500 0.15625 
  
-#ciktisini veriyor bunlari 100le carparsak yuzdelik olurlar
+#ciktisini veriyor bunlar?? 100le carparsak yuzdelik olur??ar
 
 yuz <- prop.table(table(mtcars$gear))*100
 #bu sekilde yuzdeliklerini elde ettik. kac vites olduguna gore araba sayisi
@@ -681,7 +683,7 @@ boxplot( mtcars$mpg~mtcars$gear,
         outline = T
 )
 
-# 3 tane verdi yani 3 grup vites icin verdi
+#3 tane verdi yani 3 grup vites icin verdi
 
 
 
@@ -722,7 +724,7 @@ View(mtcars)
 mtcars_1 <-  as.matrix(mtcars)
 
 heatmap(mtcars_1, scale = 'column')
-#scale islemince sutunlar bazinda islemler yapiyo ve grafigi daha duzgun hale getiriyor
+#scale islemince sutunlar baz??nda islemler yapiyo ve grafigi daha duzgun hale getiriyor
 
 heatmap(mtcars_1, scale = 'column', Colv = NA, Rowv = NA)
 #colv ve rowv baglantilari kaldiriyor

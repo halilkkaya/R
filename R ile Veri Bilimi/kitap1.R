@@ -134,14 +134,13 @@ MaksYuk <- c(1600,1600,1750)
 MaksYuk
 
 
-# kitaptaki ornekleri olusturduk
+
 
 
 
 kelebekGozlem <- data.frame(TurAd,KntAck,KntRenk,Benek,Habitat,BolDrc,UreBitki,MaksYuk)
 kelebekGozlem
 
-# hepsini bir data.framede birlestirdik
 
 m <- matrix(c(1,2,3,4,5,6), nrow = 2,ncol = 3)
 m
@@ -156,10 +155,8 @@ t(m)
 il <- 'Adana'
 yillar <- c(2017,2018)
 smuretim <- matrix(c(1.1,1.3,2.1,2.5), nrow = 2, ncol = 2, byrow = T)
-# kitaptaki degiskenlerimizi olusturduk
 
 adanatarim <- list(il,yillar,smuretim)
-# liste haline getirdik
 
 adanatarim
 
@@ -172,7 +169,6 @@ adanatarim[[2]][2]
 adanatarim[[3]]
 
 adanatarim[[3]][1,1]
-# liste eleman kontrolleri yaptik buralarda
 
 adanatarim1 <- list(lokasyon=il, donem=yillar, uretim=smuretim)
 
@@ -183,12 +179,12 @@ adanatarim1$lokasyon
 adanatarim1$uretim
 
 names(adanatarim1)
-# yeni liste olusturup bunlara sutun adlarini tanimladik
+
 
 adanatarim1[[1]]
 adanatarim1$lokasyon
 adanatarim1['lokasyon']
-# ucu de ayni islevi gerceklectiriyor
+# ??c?? de aayn?? i??levi gercekle??tiriyor
 
 adanatarim1['uretim'][1,1] # hata verir
 adanatarim1[['uretim']][1,1] # 1. satir 1. sutunu verir
@@ -198,12 +194,12 @@ adanatarim1[['uretim']][1,1] # 1. satir 1. sutunu verir
 matdizi <- array(dim = c(3,2,2))
 matdizi
 
-# her biri 3 satir 2 sutun olan 2 tane matris verdi
+# her biri 3 sat??r 2 sutun olan 2 tane matris verdi
 
 matdizi1 <- array(dim = c(5,2,3))
 matdizi1
 
-# her biri 5 satir 2 sutun olan 3 matris verdi
+# her biri 5 satir 2 s??tun olan 3 matris verdi
 
 
 x <- c(3,4,2,9,4,5,6,12,3,2,1,6)
@@ -237,18 +233,18 @@ levels(elma$il)
 summary(elma)
 
 factor(elma$il,ordered = T)
-# ordered fonksiyonu ayni zamanda siraladi
+# ordered fonksiyonu ayni zamanda s??ralad??
 
 
 factor(elma$il,levels = rev(levels(elma$il)))
-# rev fonksiyonu ile siralamayi tersten aldik
+# rev fonksiyonu ile s??ralamay?? tersten ald??k
 
 
 ordered(factor(elma$il,levels = rev(levels(elma$il))))
-# burda da siralama isareti koyduk, tersten siralamanin isareti
+# burda da s??ralama i??areti koyduk, tersten s??ralaman??n i??areti
 
 ordered(elma$il)
-# normal siralamasi burda verdi
+# normal s??ralamas??n?? burda verdi
 
 
 
@@ -267,14 +263,14 @@ tablo3
 # ikili karsilastirmali bi tablo verdi
 
 margin.table(tablo3,1)
-# satirlarin toplamini verir
+# sat??rlar??n toplam??n?? verir
 
 margin.table(tablo3,2)
-# sutunlarin toplamini verir
+# sutunlar??n toplam??n?? verir
 
 
 margin.table(tablo3)
-# genel toplami verir
+# genel toplam?? verir
 
 
 
@@ -284,16 +280,16 @@ mosaicplot(tablo3,
            cex = 1)
 
 prop.table(tablo3)
-# # hepsini oran olarak veriyor. toplamin 1 eden oran olarak 
-# yogunluklari buluyoruz
+# # hepsini oran olarak veriyor. toplam??n 1 eden oran olarak 
+# yogunluklar?? bu??luyoruz
 
 prop.table(tablo3,1)
-# satir seviyesinde oranlari veriyor
+# sat??r seviyesinde oranlar?? veriyor
 
 prop.table(tablo3,2)
-# sutun seviyesinde oranlari veriyo
+# sutun seviyesinde oranlar?? veriyo
 
-# yani her satir/sutun orani 1e esit oluyor burda
+# yani her sat??r/sutun oran?? 1e esit oluyor burda
 
 
 
@@ -324,7 +320,7 @@ library(gmodels)
 
 CrossTable(cyl,gear,fisher = T,mcnemar = T)
 # crosstabel cokkkkkk iyi bir fonksiyonmus  her seyi alabiliyoz resmen
-# bunun argumanlarina bakalim biraz
+# bunun argumanlar??na bakal??m biraz
 
 ??CrossTable
 
@@ -336,7 +332,7 @@ unname(x)
 # isimleri kaldirir atama yaparak isimleri kaldirilmis halini alabilriz
 
 dimnames(mtcars)
-# hem satir hem sutun  isimlerini listeler seklinde verir
+# hem sat??r hem sutun  isimlerini listeler seklinde verir
 
 
 rm(x)
@@ -388,7 +384,7 @@ df
 
 
 sub("am","man","selam")
-# ilk kisim cikaracaklarimiz ikinci kiism ekleyecekkerimiz son kisim neyden olacagi
+# ilk k??s??m c??karacaklar??m??z ikinci k??s??m ekleyecekkerimiz son k??s??m neyden olacag??
 
 sub('\\s','a','sensense')
 
@@ -421,7 +417,7 @@ m1%o%m2
 attach(mtcars)
 detach(mtcars)
 head(mtcars[order(mpg),])
-# mpg'ye gore sirala ver dedik
+# mpg'ye gore s??rala ver dedik
 
 
 head(mtcars[order(mpg,decreasing = T),])
@@ -442,17 +438,15 @@ boy <- 3
 class(boy)
 typeof(boy)
 
-# degiskenin veri tipini kontrol ettik iki fonksiyonla
-
 seq(from=1,to = 10, by =2)
 
-# 1den 10a kadar tek sayilari aldik 1,3,5,7,9
+
 
 piller <- data.frame(marka =c('pil','marka',"aticam","20 tane","say","sen","duracell"),
                      tipi=rep('iyon',7),
                      dayanma =c(10,20,10,50,30,50,10))
 piller
-# data frame olusturduk piller uzerine.
+
 
 A <- matrix(c(4,2,1,6,3,2),nrow = 2,ncol = 3)
 
@@ -460,7 +454,6 @@ A[2,]
 A[,1]
 A[2,3]*A[1,3]
 
-# matrisler uzerine islem yaptik
 
 tarimisletme <- list(il=c('istanbul','adana'),
                      ilce=c('sultanbeyli','cukurova'),
@@ -468,27 +461,20 @@ tarimisletme <- list(il=c('istanbul','adana'),
                      urun=c('pirinc','pamuk'),
                      gelir=c(150000,450000))
 tarimisletme
-# yeni liste olusturduk
 
+7
 aromatikbitki <- c('kekik','anason','dereotu')
-
 
 class(aromatikbitki)
 mode(aromatikbitki)
 typeof(aromatikbitki)
 
-# sinif kontrolu yaptik bu uc fonksiyon da sinif testi yapiyor
-# typeof en guveniliriymis
-
-
 debi  <- c(44,NA,23,32,51)
 anyNA(debi)
-# herhangi bir NA degeri varsa TRUE dondurur
-
 
 x <- c(12,4,8,7)
 length(x)
-# uzunlugu alir
+
 
 x <- c('a','b','c','d')
 y <- c(300,275,412,87)
@@ -498,13 +484,11 @@ df <- data.frame(x,y)
 nrow(df)
 ncol(df)
 dim(df)
-# satir sutun sayilarini verir
+
 
 str(x)
 head(x,2)
 tail(x,2)
-# head bastan tail sondan  veri verir
-
 
 x <- c("1980","1985","1990")
 
@@ -527,7 +511,7 @@ a
 c
 
 14%/%3*2^2
-# ilk islem bolme isleminde bolum kismini aliyor
+
 
 
 x=10
@@ -538,7 +522,6 @@ y >= x*2 | sqrt(y) > x/z
 
 
 'z' %in% 'zeytin'
-# false dondurur. 
 
 x <- c(3,2,4,3,8,1,5,5,6,2)
 
@@ -546,7 +529,6 @@ order(x,decreasing = T)
 sort(x,decreasing = T,method='auto')
 order(x)
 ?order
-# siralama islemleri yaptik
 
 df <- data.frame(kod=c('x11','a20','d23'),
                  perf=c(63,32,24))
@@ -573,7 +555,7 @@ m1/m2
 
 m1%o%m2
 
-# matrislerde islem yaptik
+
 
 x <- c(10,5,4,3,3,6)
 mean(x)
@@ -585,7 +567,6 @@ sd(x)
 
 
 getwd()
-# hangi dosya konumunda oldugumuz yaziyor
 
 data(iris)
 iris
@@ -593,7 +574,7 @@ iris
 View(iris)
 
 mean(iris$Sepal.Length)
-# ortalamasi
+
 
 
 gozlemler <- textConnection("
@@ -622,9 +603,149 @@ library(readxl)
 
 
 
+install.packages("RCurl")
+library(RCurl)
+
+depo <- "https://archive.ics.uci.edu/dataset/39/ecoli"
+
+a <- read.table(textConnection(getURL(a)),sep = "\t",header = F)
+
+
+
+a <- "https://doi.org/10.24432/C5MW4Z."
+
+
+a <- read.table(file.choose(), sep = "\t",header = T)
+b <- read.table(file.choose())
+
+names(a) <- b
 
 
 
 
 
+depo <- "https://archive.ics.uci.edu/ml/machine-learning-databases/ecoli/ecoli.data"
+
+
+ecoli <- read.table(textConnection(getURL(depo)),header = F)
+
+install.packages("readr") # CSV dosyalar?? i??in
+install.packages("foreign") # ARFF dosyalar?? i??in
+install.packages("RWeka") # ARFF dosyalar?? i??in alternatif
+library(foreign)
+?read.arff
+
+read.arff(choose.files())
+
+
+
+
+
+getwd()
+setwd("C:/Users/halil ibrahim kaya/Desktop")
+sink(file = 'analiz.out')
+# konuma .out seklinde bir dosya olusturduk. girdigimiz verileri oraya yazacagiz
+cat("DF veriseti\n")
+# cat ile icindeki yaziyi yazdik oraya
+print(df)
+# df veri setini icerisine yazdik
+cat("\n temel istatistikler\n")
+# cat icerisindekini yazdirdik
+tstat <- summary(df)
+tstat
+# temel istatistik degerlerini alip yazdik. calisan sonuclari direkt oraya yaziyor.
+# kendi ekranimiz bos durumda burdaki sonuclarin nasil ciktigini da ekleyecegim analiz.out
+# dosyasindan ciktilara bakabiliriz
+sink()
+# yazdirmayi bitirdik. parametresiz sink() yazarak
+
+
+
+sink(file = "analiz.out",append = T)
+cat("\n normallik test sonuclarindan p.value'lar?? \n")
+a <- df %>% group_by(X) %>% summarise(shapiro.test(Alcohol)$p.value)
+a
+cat("\n ilk iki grubun normallik testleri \n")
+sink()
+
+# tekrar bir sey eklemek istedigimizde append =TRUE yazmamiz gerekiyor
+# bu sink fonksiyonuyla matris ve veri cerceveleri icin yetersiz 
+# onun yerine baska paketler avr
+
+
+
+write.table(df,file = "df.txt",sep = "\t")
+# df icerisindeki verileri tab bosluk ekleyerek yazdirdik.
+# goruntusunu yine df.txt dosyasiyla birakacagim
+
+
+
+tstat <- summary(df)
+tstat
+
+save(df,tstat,file = "save.Rdata")
+# dosyayi kaydettik ve ileride kaldigimiz yerden devam edebilecegiz
+load("save.Rdata")
+df
+# kaldigimiz yerden devam edebiliriz.
+
+
+install.packages("xlsx")
+library(xlsx)
+write.xlsx(df,file="excel.xlsx")
+# excel seklinde kaydeder.
+
+png(filename = "sarapalkol.png")
+pairs(df[,1:2])
+dev.off()
+# grafik olarak kaydediyor. parametrelere bakariz sonra
+
+
+dev.copy(png,"alkonorani.png")
+dev.off()
+# suan cizili olan grafihi kaydeder direkt.
+
+
+# sayfa 114 alistirmalari
+
+install.packages("robustbase")
+  library(robustbase)
+view(lactic)
+# veri setini yukledik ve inceledik
+
+attach(lactic)
+
+mean(X)
+median(X)
+mean(Y)
+median(Y)
+
+detach(lactic)
+
+# ortalamalarini ve ortanca degerini aldik
+
+
+
+bverim <- textConnection("
+bitkiboyu bitkiverimi
+120 44
+152 60                         
+130 64                         
+135 72 ")
+
+
+y <- read.table(bverim,header = T)
+
+close(bverim)
+y
+# tablo olusturduk, connectionu kapattik ve tabloyu yazdirdik
+
+
+bverim2 <- read_csv(file = "bboy.csv")
+# csv olarak yaptigimiz dosyayi bu sekilde iceri aktardik
+
+library(readxl)
+bverim3 <- read_xlsx("bboy.xlsx")
+
+# excel olarak ekledik
 

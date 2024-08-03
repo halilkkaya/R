@@ -1,37 +1,37 @@
 ################# data framler #######################
 
-#data frameler excel gibi dusun satir ve sutunlardan olusur
+#data frameler excel gibi d??????n sat??r ve s??tunlardan olu??ur
 #vektorlerde bu yok, listelerde bu yok
 
-#vektorleri olusturduk.
+#vekt??rleri olu??turduk.
 x <- c(10,20,30,40)
 y <- c('a','b','c','d')
 z <- c(11,22,33,44)
 
-#hepsini dataframe icine attik
+#hepsini dataframe icine att??k
 df <- data.frame(x,y,z)
 df
 
-View(df) # r studio icerisinde olan bi ozellik. tabloyla gosteriyor. guzel duruyo
+View(df) # r studio i??erisinde olan bi ??zellik. tabloyla g??steriyor. g??zel duruyo
 
-#data frame olusmasi icin vektorlerdeki karakter sayilari esit olmali
-#data.frame(x,y,z,t) kismi calismaz cunku karalter sayilari 4,4,4,5 dir
+#data frame olu??mas?? i??in vekt??rlerdeki karakter say??lar?? e??it olmal??
+#data.frame(x,y,z,t) k??sm?? ??al????maz ????nk?? karalter say??lar?? 4,4,4,5 dir
 
 t <- c(1,2,3,4,5)
 e <- c(45,56,67,37,23)
 data.frame(x,y,z,t)
 data.frame(t,e)
-# burada sutunlarin adina degisiyoruz
+# burada s??tunlar??n ad??n?? de??i??iyoruz
 df2 <- data.frame('AVar'=x,'BVar'=y,'CVar'=z)
 View(df2)
  
-#sutun isimleri kotu geliyor
+#s??tun isimleri k??t?? geliyor
 df3 <- data.frame(c(1,2,3,4,5),
                   c(34,45,67,89,45),
                   c(12,34,45,34,45))
 df3
 
-#ad verdik sutunlara, tirnak atmasak da olur. arsinda bosluk koycaksak tirnak lazim.
+#ad verdik s??tunlara, t??rnak atmasak da olur. ars??nda bo??luk koycaksak t??rnak laz??m.
 
 df4 <- data.frame('a'=c(1,2,3,4,5),
                   'b'=c(34,45,67,89,45),
@@ -42,7 +42,7 @@ df4
 
 
 
-################# data frameler icerisinde satir/sutun secimi#####################
+################# data frameler i??erisinde sat??r/s??tun se??imi#####################
 
 df <- data.frame(a=c(1,2,3,4,5),
                  b=c('a','b','c','d','e'))
@@ -79,24 +79,24 @@ df2[c('a','b')]
 
 
 
-############### data framelerden sat??r/s??tun cikartma ###########
+############### data framelerden sat??r/s??tun ????kartma ###########
 
 dt <- data.frame(a=c(1,2,3,4),b=c('a','b','c','d'),
                  c=c(66,77,88,99))
 dt
 
-dt[-1,] #ilk sat??r?? kaldirir
-dt[-2,-1] #ikinci sat??r birinci s??tun kaldirilir
+dt[-1,] #ilk sat??r?? kald??r??r
+dt[-2,-1] #ikinci sat??r birinci s??tun kald??r??l??r
 
-dt[-3:-1,]#ilk uc satirr gidio
+dt[-3:-1,]#ilk ???? sat??r gidio
 dt[,-2:-1]#ilk iki s??tun gidiyo
 
 dt[-c(1,2),] #iilk iki sat??r gider
 
-dt[[2]][2] <- NA #2. satir 2. sutun kesisimine NA aatr
+dt[[2]][2] <- NA #2. sat??r 2. s??t??n kesi??imine NA aatr
 
 dt
-dt ['c'] <- NULL # c vektorunu sifirladi
+dt ['c'] <- NULL # c vektorunu s??f??rlad??
 dt
 
 dt[-c(2:4),] #2 ile 4 aras??ndaki sat??rlar?? siler.
@@ -136,7 +136,7 @@ df
 
 
 
-################# data frame eleman de??eri degistirme###########
+################# data frame eleman de??eri de??i??tirme###########
 
 df <- data.frame(a=c(1,2,3,4),b=c(4,5,6,7))
 df
