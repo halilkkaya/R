@@ -706,7 +706,7 @@ dev.off()
 # suan cizili olan grafihi kaydeder direkt.
 
 
-# sayfa 114 alistirmalari
+## sayfa 114 alistirmalari
 
 install.packages("robustbase")
   library(robustbase)
@@ -748,4 +748,54 @@ library(readxl)
 bverim3 <- read_xlsx("bboy.xlsx")
 
 # excel olarak ekledik
+
+
+library(RCurl)
+depo <- "https://vincentarelbundock.github.io/Rdatasets/csv/robustbase/milk.csv"
+milk <- read.table(textConnection(getURL(depo)),header = T,sep = ",")
+
+# milk.csv dosyasini url ile ekledik
+
+rand1 <- rnorm(100,mean = 5,sd = 0.5)
+rand2 <- runif(100,min = 35,max = 110)
+rand3 <- rweibull(100,scale = 7,shape = 1.2)
+
+randdata <- data.frame(rand1,rand2,rand3)
+getwd()
+setwd("C:/Users/halil ibrahim kaya/Desktop")
+write.table(randdata,file = "randomdist.dat",sep = "\t")
+
+# masaustunde randomdist.dat seklinde dosya olusturup tablonun icerigini oraya attik
+
+
+
+
+sink(file = "rand.out")
+cat("randdata verisetinin verileri: \n")
+randdata
+cat("\n ozet bilgileri \n")
+summary(randdata)
+sink()
+
+# dosya olusturduk cat ile yazi yazdik verileri girdik ve ozet bilgileri de yazdiktan sonra
+# sink() ile kapattik
+
+
+
+save(randdata,file = "rand.Rdata")
+# Rdata save dosyasi
+
+
+
+## sayfa 114 alistirma sonu
+
+
+
+
+
+
+
+
+
+
 
