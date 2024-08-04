@@ -414,41 +414,249 @@ X[ids,]
 # aykiri degerlerimi buldum mahlanobise gore bulduk
 
 
+##### kayip degerleri degerlendirme yontemleri####
+
+# kayip degerlerin cikarilmasi
+
+# ortalama deger ile doldurma
+
+# yeni bir gozlem ile yer degistirme
+
+# Hot Deck Imputation(rastgele deger atama)
+
+# Cold Deck Imputation (en yakin gozlem ozelliklerine sahip baska bir gozlemin degeri)
+
+# Regression Imputation (regresyon modeli ile tahmine dayali atama islemi)
+
+# Stochastic Regresion Imputation( Regresyon modeli tahmin ve rastegele artik deger ile toplama)
+
+ 
+
+install.packages("MICE")
+install.packages("Amelia")
+install.packages("missForrest")
+install.packages("Hmisc")
+install.packages("mi")
+ 
+# bu bolum icin gerekli paketleri simdiden yukledim
 
 
 
 
+## kayip degerler nasil ve hangi durumlarda cikartilmali ##
+
+df <- student_placement_data_with_NA
+# df seklinde yazalim istedim
+
+View(df)
+
+is.na(df)
+# hangileri na veya degil True False ile bize tablo verdi.
+
+indis <- which(is.na(df))
+length(indis)
+# 39000 tane na degerim varmis
+
+df_new <- na.omit(df)
+
+nrow(df)
+# 20k satir
+nrow(df_new)
+# 2630 satir
+# bayyyyaaa gitmis veri 17400 veri gitmis resmen
+# na olan satirlari sildigimiz icin sikintili oldu
+# ne zaman na.omit kullanalim?
+# ayni satir uzerinde cok fazla na varsa o satiri cikartalim
+# diger turlu 39 degiskenden 1 tanesi na diye cikarirsak elimizde veri kalmaz
+# bu turler icin doldurma kullanacagiz. deneyelim
+
+
+
+## ortalama atama yontemi  ##
+
+is.na(df$Acedamic.percentage.in.Operating.Systems)
+ids <- which(is.na(df$Acedamic.percentage.in.Operating.Systems))
+# na degerlerin indislerini aldik
+
+length(ids)
+# 993 deger na imis bu sutunda
+
+ort <- mean(df$Acedamic.percentage.in.Operating.Systems,na.rm = T)
+# 77.00952 verdi bunu atayalim bi degere
+
+df$Acedamic.percentage.in.Operating.Systems[ids] <- round(ort) 
+# atama islemi yaptik. round ile sadece int kismini aldik
+
+
+is.na(df$Acedamic.percentage.in.Operating.Systems)
+which(is.na(df$Acedamic.percentage.in.Operating.Systems))
+# hic yok dedi yani atama islemi basarili oldu.
+# na degerlerine o sutunun ortalamasini atadik
+
+# bazi durumlarda kullanisli yontem olurken bazi durumlarda olmaz
+# bakalim bu veri seti icin nasil degerlendirecegiz
+
+# 993 tane NA degerimiz vardi
+# 20000 tane de gozlemimiz vardi
+# 20knin yaninda 993 kucuk de olsa baya buyuk bi sayi. 
+# veri setimizde aykiri degerler varsa aykiri degerlerden etkilenen
+# bi ortalama olusturmus oluruz.
+# bu yontem icin oncelikle aykiri degerleri kaldirmak mantikli olabilir
+
+# cok degiskenli veri setlerinde degiskenlerimizin birbirine olan
+# bagimliligini iliskisini goz onunde bulundurarak tahminler yapmak
+# daha mantikli olabilir
+
+# ama tek degiskense ortalama atama mantikli olabilmektedir
+
+
+
+## rastgele olarak kayip deger doldurma (Hot Deck Imputation)##
+
+set.seed(123)
+rnorm(2)
+
+rnorm(2)
+
+set.seed(123)
+rnorm(2)
+# set.seed(123) yazdikran sonra aldigimiz sayilar neyse yine onlari verdi
+# rastegele veri uretirken onlari sabitlemek icin kullanilir
+
+indis <- which(is.na(df$Acedamic.percentage.in.Operating.Systems))
+
+length(which(is.na(df$Acedamic.percentage.in.Operating.Systems)))
+# 993 deger NA
+
+
+# istersek bi tane rastgele sayi olusturup hepsine onu atariz
+
+random <- sample(df$Acedamic.percentage.in.Operating.Systems[-indis],size=1 )
+# NA indisleri olmayan degerlerden 1 sayi al
+
+random
+
+x <- df$Acedamic.percentage.in.Operating.Systems
+
+x[indis] <- random
+
+which(is.na(x))
+# NA degerlerim gitti atama islemi yaparak bunu direkt verilere yazabiliriz
+# df$Acedamic.percentage.in.Operating.Systems <- x
+# seklinde atama yaparak eklemis oluruz ama ben yapmayacagim baska seyler de deneyecegiz diye
+
+
+mean(x)
+# rastgele eklenen sayili
+mean(df$Acedamic.percentage.in.Operating.Systems,na.rm = T)
+# orijinal veriler
+
+# aradaki fark 0.05 cikti baya az cok fazla oynamamis ama ortalamayi asagi cekmis
 
 
 
 
+# kayip gozlem sayimiz kadar random sayi secelim
+
+
+set.seed(12)
+random_many <- sample(df$Acedamic.percentage.in.Operating.Systems[-indis], size = length(indis))
+
+random_many
+# set seedle beraber calistir hep ayni sayilari atar
+  
+y <- df$Acedamic.percentage.in.Operating.Systems
+
+y[indis] <- random_many
+
+mean(y)
+mean(df$Acedamic.percentage.in.Operating.Systems,na.rm = T)
+# neredeyse hic fark olmamis 0.008 fark var
+
+# kayip deger sayisi kadar rastgele deger cekme daha mantikli bir yoldur tek veri secmeye gore
 
 
 
 
+## Cold Deck En yakin gozlem degeri atama ##
 
 
+df <- student_placement_data_with_NA
 
 
+index <- which(is.na(df$percentage.in.Algorithms))
+length(index)
+# 1008 tane deger na var
 
 
+index[1]
+names(df)
+# "certifications"
+# "workshops"
+# bu iki degiskenlerin sonuclarina ait diger verilerden iliski kurup veri
+# verecegiz na degerimize
+
+df[c("certifications","workshops")][index[1],]
+# percentage.in.Algorithms sutununda bulunan ilk NA indisimizin
+# "certifications","workshops" verilerini aldik
+# ilk indisin bu degerleri python ve data science imis
 
 
+d <- subset(df, 
+       select = c("percentage.in.Algorithms","certifications","workshops"),
+       subset = (certifications=="python"& workshops =='data science'))
+
+# sertifikasi python ve calisma alani veri bilimi olanlarin percentage.in.Algorithms 
+# degerlerini fln getirdik. iclerinde de NA olanlar var dikkat
+
+anyNA(d)
+# NA degerim varmis
 
 
+ort <- mean(d$percentage.in.Algorithms,na.rm = T)
+ort
+# 76.66805 ortalamasini verdi
+
+df$percentage.in.Algorithms[index[1]] <- ort
+
+# artik kayip degerimiz yerine o alanda calisanlarin ortalamasini girdik
+# bu tek bir veri uzerine yaptigimizdi bunu hepsine yapalim
+
+df <- df %>% mutate(percentage.in.Algorithms = ifelse(certifications == 'python' & workshops == 'data science' & is.na(percentage.in.Algorithms), 
+                                                      round(ort), percentage.in.Algorithms))
+# burada python data science ve na degeri olanlari buldum ve bunlarin hepsine atamayi yaptim
+
+d <- subset(df, 
+            select = c("percentage.in.Algorithms","certifications","workshops"),
+            subset = (certifications=="python"& workshops =='data science'))
+# burada kontrol amacli python ve data science kosullarini saglayanlarini aldim
+anyNA(d)
+# ve na degeri var mi baktim. gercekten de yaptigimiz atama onlarin yerine ortalamayi atmis
 
 
+manip <- df %>% select(certifications,workshops,percentage.in.Algorithms) %>%
+  filter(certifications=='python'&workshops=='data science')
+# once ve sonra ortalamalarini kontrol etmek amacli manip adinda python ve data science
+# eslesmelerini aldim
+
+# ortalamalari kontrol edelim
+
+mean(df$percentage.in.Algorithms,na.rm = T)
+# once genel ortalamasi 76.96125
+
+mean(manip$percentage.in.Algorithms, na.rm = T)
+# once python ve data science olanlarin ortalamasi 76,66805
+
+# simdi verileri aktarip bakalim
+mean(df$percentage.in.Algorithms,na.rm = T)
+#yeni once genel ortalamasi 76.96128
+
+mean(manip$percentage.in.Algorithms)
+# yeni python ve data science olanlarin ortalamasi 76.6875
 
 
+# verilerimizdeki degisimler bu sekilde olmustur. videolarda tamamina atama yoktu
+# tidyverse kullanarak ben yaptim
 
 
-
-
-
-
-
-
-
-
-
-
+##### kayip degerleri gorsellestirme ####
