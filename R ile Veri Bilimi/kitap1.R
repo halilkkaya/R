@@ -791,11 +791,123 @@ save(randdata,file = "rand.Rdata")
 
 
 
+kiraz1 <- data.frame(magr=c(5.8,5.7,5.4,4.9,6.7,4.8,6.3,5.9,5.3,5.9,7.1,6.2,6.4,6.5,6.4,6.3,5.8,7.2,6.7,6.6,5.2,6.5,6.2,7.1,5.5,5.6,6.2,5.5,6.3,6.4),
+                     grup=c(rep('A',10),rep('B',10),rep('K',10)))
+
+
+kiraz2 <- data.frame(magr=c(5.9,6.6,6.5,6.6,7.0,7.1,6.3,6.2,6.1,5.9,10.5,8.4,9.6,10.5,6.9,8.7,10.8,9.4,10.1,6.1,4.0,5.1,6.1,4.9,5.1,5.1,5.2,4.8,4.6,6.4),
+                     grup=c(rep('A',10),rep('B',10),rep('K',10)))
+# 2 dataframe olustuduk
+
+kiraz1$grup <- as.factor(kiraz1$grup)
+kiraz2$grup <- as.factor(kiraz2$grup)
+str(kiraz1)
+str(kiraz2)
+
+head(kiraz1)
+head(kiraz2)
+tail(kiraz1)
+tail(kiraz2)
+# verileri kontrol ettik
+
+kiraz1$grup <- ordered(kiraz1$grup,levels=c("K","A","B"))
+kiraz2$grup <- ordered(kiraz2$grup,levels=c("K","A","B"))
+
+# levelleri siraladik. Kontrol grubu, 20ppm A grubu, 50 ppm B grubu (asit dozlari)
+
+
+par(mfrow=c(1,2))
+hist(kiraz1$magr,col = "gray",prob=T,
+     xlab = "Agirlik (g)",
+     ylab = "frekans",
+     main = "deneme grafigi")
+# grafigimizi olusturduk
+lines(density(kiraz1$magr),lwd=3,col="orange")
+# yogunluk cizgimiiz cektik
+
+hist(kiraz2$magr,col = "gray",prob=T,
+     xlab = "Agirlik (g)",
+     ylab = "frekans",
+     main = "deneme grafigi")
+# grafigimizi olusturduk
+lines(density(kiraz2$magr),lwd=3,col="orange")
+# yogunluk cizgimiiz cektik
+http://127.0.0.1:43819/graphics/plot_zoom_png?width=1587&height=705
+
+
+
+hist(kiraz1$magr[kiraz1$grup=="A"], col = "gray", probability = T)
+lines(density(kiraz1$magr[kiraz1$grup=="A"]),lwd=3,col="orange")
+
+hist(kiraz1$magr[kiraz1$grup=="B"], col = "gray", probability = T)
+lines(density(kiraz1$magr[kiraz1$grup=="B"]),lwd=3,col="orange")
+# kiraz1 df icerisindeki A ve B gruplarinin grafigi
 
 
 
 
+par(mfrow=c(1,2))
+boxplot(kiraz1$magr,col = "gray",border = "blue",main ="deneme",xlab="agirlik",horizontal = T)
+
+boxplot(kiraz2$magr,col = "gray",border = "blue",main ="deneme",xlab="agirlik",horizontal = T)
+
+# kiraz1 daha ortada ve normal dagilis gosterirken kiraz2 daha daginik gpruntuye sahip duruyor
 
 
+
+qqnorm(kiraz1$magr,main = "q-q grafigi",
+       xlab = "Teorik kantiller",
+       ylab = "orneklem kantiller")
+qqline(kiraz1$magr,col="purple",lwd =2)
+
+# qq grafigi ile inceleyelim. kriaz 1 normal gibi duruyor. cziginin cevresinde hep
+
+qqnorm(kiraz2$magr,main = "q-q grafigi",
+       xlab = "Teorik kantiller",
+       ylab = "orneklem kantiller")
+qqline(kiraz2$magr,col="purple",lwd =2)
+
+# qq grafigi ile inceleyelim. kriaz 2 normal degil gibi duruyor. cizginin disindalar hep
+
+
+
+
+model1 <- lm(magr~grup, kiraz1)
+model2 <- lm(magr~grup, kiraz2)
+qqnorm(residuals(model1)) ; qqline(residuals(model1))
+qqnorm(residuals(model2)) ; qqline(residuals(model2))
+
+# yine grafik ciziyoruz. ilk cizdigimiz grafikler normal degerler grafigi olurken
+# ikinci cizdigimiz yogunluk grafigidir. 
+
+
+summary(kiraz1$magr)
+# ozet bilgileri verir
+
+install.packages("psych")
+require(psych)
+
+describe(kiraz1$magr)
+# daha detayli ozet bilgileri verir
+
+describeBy(x=kiraz1$magr,group = kiraz1$grup)
+# gruplarin ozet bilgilerini verir
+
+describeBy(kiraz2$magr,group = kiraz2$grup,digits = 2)
+# kiraz2 icin grup ozet bilgileri
+
+
+install.packages("Rmisc")
+library(Rmisc)
+
+summarySE(data = kiraz1,"magr",groupvars = "grup",conf.interval = 0.95)
+# yine gruplara ait ozet bilgileri iceren baska bir paketteki fonksiyon
+
+install.packages("FSA")
+library(FSA)
+
+Summarize(magr~grup, data=kiraz1)
+
+# baska paketteki ozet bilgiler fonksiyonu yine
 
 
