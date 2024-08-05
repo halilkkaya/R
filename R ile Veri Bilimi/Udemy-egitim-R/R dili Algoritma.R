@@ -1,13 +1,13 @@
 ##### fonksiyonel porgramlama#####
-# print cat ve paste fonksiyonlar??
+# print cat ve paste fonksiyonlari
 
 print(5+6)
 x <- 5
 print(x)
 y <-  10
-print(x,y) #y'yi yazd??rm??yor. sadece x veriyor
+print(x,y) #y'yi yazdirmiyor. sadece x veriyor
 
-cat(x,y) #ikisini birden yazd??r??r
+cat(x,y) #ikisini birden yazdirir
 
 cat(x,' -> ',y) # 5  ->  10 seklinde cikti verir 
  
@@ -36,7 +36,7 @@ if (5==5) {
 
 if (5==4) {
   print('Dogru')
-} #bir sey yazd??rmad??
+} #bir sey yazdirmadi
 
 
 if (5==4) {
@@ -264,7 +264,7 @@ while (TRUE) {
 
 
 
-##### for dongusu icinde cektor olusturma####
+##### for dongusu icinde vektor olusturma####
 
 
 x=''
@@ -274,7 +274,7 @@ for (i in 1:10) {
 x[i] = i  
   
 }
-x #10a kadar olan?? ekledi
+x #10a kadar olani ekledi
 
   
 #for icinde if
@@ -295,7 +295,7 @@ for (i in 1:nrow(iris)) {
       text2 <- paste(names(iris[3]),' sutununun ' ,i,'. degeri 3tur')
       print(text2)
     }
-} #say??lar??n kontrolu
+} #sayilarin kontrolu
 
 x <- character(length(iris$Petal.Length)) #bos sekilde vektor olusturdu
 
@@ -310,7 +310,7 @@ for (i in 1:length(x)) {
 x #buyuktur kucuktur seklinde icine eleman atadikk
 
 iris['var2'] <- x
-iris #yeni sutun ekleyip oraya att??k.
+iris #yeni sutun ekleyip oraya attik.
 
 
 
@@ -335,7 +335,7 @@ f <- function(x){
   }
     return(topla) 
 }
-f(a) #1den 10a kadar olan say??lar?? verdi
+f(a) #1den 10a kadar olan sayilariverdi
 
 b <- rnorm(20, mean = 15, sd = 3)
 b
@@ -359,8 +359,8 @@ myfun <- function(x,y){
     print(res)
   }
 }
-myfun(b,c) #b ve c vekt??rlerindeki sayilarimizi her bir indisleri
-#iceriye girdigimiz ozel islemler yaptik s??nucu yazdirdik
+myfun(b,c) #b ve c vektorlerindeki sayilarimizi her bir indisleri
+#iceriye girdigimiz ozel islemler yaptik sonucu yazdirdik
 
 ##### kullanici girdisi ile fonk deger gonderme#####
 
@@ -476,7 +476,7 @@ standart_S <-  function(x, population = TRUE){
   
   uzunluk <-  length(x)
   ortalama <- mean(x)
-  fark_vec = numeric(uzunluk) #belirlenen say?? kadar vector olusturur. hepsi sifir olur icinin
+  fark_vec = numeric(uzunluk) #belirlenen sayi kadar vector olusturur. hepsi sifir olur icinin
   
   for (i in 1:uzunluk) {
     fark_vec[i] <- (x[i]-ortalama)**2
@@ -614,12 +614,12 @@ x#20 oldu. fonk calistirdiginda deger degisiyo <<- sayesinde
 ##### odev ####
  #soru 1
 
-#????erisine bir adet vekt??r arg??man?? (paremetre) alan bir fonksiyon olu??turunuz. 
-#Bu fonksiyon verilen vekt??r??n t??m elamanlar??n??n mutlak de??erini abs() 
-#fonskiyonunu kullanarak al??mal??. Ard??ndan mutlak de??eri al??nm???? de??erlerin 
-#karek??k??n?? almal?? ve sonu?? olarak ????kan t??m elemanlar?? 10 ile ??arp??p olu??an 
-#de??erlerin toplam??n?? almal??. Olu??turdu??unuz fonksiyonu rastgele normal da????lan 
-#bir de??i??ken olu??turarak test ediniz. Yazd??????n??z t??m script'i cevap olarak belirtiniz. 
+#icerisine bir adet vektor argumani (paremetre) alan bir fonksiyon olusturunuz. 
+#Bu fonksiyon verilen vektorun tum elamanlarinin mutlak degerini abs() 
+#fonskiyonunu kullanarak alimali. Ardindan mutlak degeri alinmi degerlerin 
+#karekokunu almali ve sonuc olarak cikan tum elemanlari 10 ile carpip olusan 
+#degerlerin toplamini almali. Olusturdugunuz fonksiyonu rastgele normal dagilan 
+#bir degisken olusturarak test ediniz. Yazdiginiz tum script'i cevap olarak belirtiniz. 
 
 
 f1 <-  function(x){
@@ -679,39 +679,39 @@ f2(l)
 
 fonksiyon2 <- function(liste){
   
-  # Bu liste yeni bir listedir for d??ng??s??nde yeni elemanlar atanacakt??r.
-  # Al??d???? elemanlar fonksiyona verilen listenin vekt??r elemanlar??n??n 
-  # b??y??kt??r k??????kt??r hale ??evrilmi?? hali olacakt??r
-  # ??NEML??: bu listenin elemanlar?? vekt??r olact??r
+  # Bu liste yeni bir listedir for dongusunde yeni elemanlar atanacaktir.
+  # Al??d???? elemanlar fonksiyona verilen listenin vektor elemanlarinin 
+  # buyuktur kucukktur hale cevrilmis hali olacaktir
+  # ONEMLI: bu listenin elemanlari vektor olactir
   yeniListe <- list()
   for(i in 1:length(liste)){
     
-    # Bu k??s??mda yeni bir vekt??r olu??turulmas?? gerek. 
-    # ????nk?? bu vekt??r listenin i??erisindeki vekt??rde bulunan
-    # de??erlere g??re b??y??kt??r k??????k de??erlerini alacak
+    # Bu kisimda yeni bir vektor olusturulmasi gerek. 
+    # cunku bu vektor listenin icerisindeki vektorde bulunan
+    # degerlere gore buyuktur kucuk degerlerini alacak
     # ve son olarak listeye eklenecektir.  
-    # Fonksiyonu verilen listenin di??er eleman??na ge??ti??inde 
-    # tekrar bo?? olarak olu??turulacak ve yeni de??erlerini alacakt??r.
-    yeniVektor <- c() # Her liste d??ng??s??nde (i) yeni bo?? vekt??r olu??turur.
+    # Fonksiyonu verilen listenin diger elemanina gectiginde 
+    # tekrar bos olarak olusturulacak ve yeni degerlerini alacaktir.
+    yeniVektor <- c() # Her liste dongusunde (i) yeni bos vektor olusturur.
     
     for(k in 1:length(liste[[i]])){
       
-      ## Vekt??rdeki elemanlar??n kontrol??
+      ## Vektordeki elemanlarin kontrolu
       if(liste[[i]][k] > 5){
         
-        # Yeni vekt??re b??y??kt??r atamas??
-        yeniVektor[k] <- "B??y??kt??r" 
+        # Yeni vektore buyuktur atamasi
+        yeniVektor[k] <- "buyuktur" 
       }else{
-        # Yeni vekt??re k??????kt??r atamas??
-        yeniVektor[k] <- "K??????kt??r"
+        # Yeni vektore kucuktur atamasi
+        yeniVektor[k] <- "Kucuktur"
       }
     }
     
-    # Yeni vekt??r??n yeni listenin ge??erli indeksine kaydedilmesi
+    # Yeni vektorun yeni listenin gecerli indeksine kaydedilmesi
     yeniListe[[i]] <- yeniVektor
   }
   
-  # Sonu?? olarak yeni listenin d??n??lmesi
+  # Sonuc olarak yeni listenin donulmesi
   return(yeniListe)
 }
 fonksiyon2(l)

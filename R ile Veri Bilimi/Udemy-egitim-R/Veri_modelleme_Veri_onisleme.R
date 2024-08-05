@@ -660,3 +660,4 @@ mean(manip$percentage.in.Algorithms)
 
 
 ##### kayip degerleri gorsellestirme ####
+
