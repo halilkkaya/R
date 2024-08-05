@@ -835,6 +835,7 @@ lines(density(kiraz2$magr),lwd=3,col="orange")
 http://127.0.0.1:43819/graphics/plot_zoom_png?width=1587&height=705
 
 
+par(mfrow=c(1,2))
 
 hist(kiraz1$magr[kiraz1$grup=="A"], col = "gray", probability = T)
 lines(density(kiraz1$magr[kiraz1$grup=="A"]),lwd=3,col="orange")
@@ -907,7 +908,69 @@ install.packages("FSA")
 library(FSA)
 
 Summarize(magr~grup, data=kiraz1)
-
 # baska paketteki ozet bilgiler fonksiyonu yine
+
+
+library(dplyr)
+
+group_by(kiraz1,grup) %>%
+  summarise(
+    count = n(),
+    mean = mean(magr,na.rm = T),
+    var = var(magr, na.rm = T),
+    sd = sd(magr, na.rm =T),
+    median = median(magr, na.rm = T),
+    IQR = IQR(magr, na.rm=T)
+  )
+
+# gruplarin icerisindeki verileri veriyor.
+
+
+install.packages("gvlma")
+library(gvlma)
+
+model1 <- lm(magr~grup, kiraz1)
+
+gvkont1 <- gvlma(model1, alphalevel = 0.05)
+
+summary(gvkont1)
+
+# analiz icin gerekli sonuclari veriyor.
+# bu testlerde global stat varsayimlarin kabul edilebilir veya edilemez seklinde
+# olan kismini verir diger satirlarda capiklik basiklik falan degerlerinin
+# varsayimlar icin olan durumlarini p degeri ile veriyor.
+# 0.05 ustu olanlar kabul edilebilir seklinde sunuluyor
+# aynisini kiraz 2 icin de yapalim
+
+model2 <- lm(magr~grup, kiraz2)
+
+gvkont2 <- gvlma(model2, alphalevel = 0.05)
+
+summary(gvkont2)
+
+# burda daha kotu sonuclar geldi mesela global stat 0.07
+# yani evet 0.05den buyuk ama yine de varsayimlar icin
+# sinirda olan bi deger. carpiklik 0.04 cikmis yani kabul edilebilir degil
+# onemli olarak verilmis. bu sebeple kiraz2 verisi parametrik testlere uygun degil diyoruz
+# bununla beraber genel testin sonucu 0.05den buyuk oldugundan parametrik testler uygun 
+# oldugunu gostermektedir. kitaptan dikret alinti burasi biraz cakisiyo gibi geldi.
+# anlamadim
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
