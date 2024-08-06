@@ -195,6 +195,161 @@ durbinWatsonTest(model2)
 
 
 
+# parametrik testler icin gerekli varsayimlar saglanmadiginda direkt olarak parametrik olmayan testlere gecis yapilmaz
+# veri donusumuyle cozum bulunmaya calisilmalidir. eger yine de cozum olmadiysa o zaman parametrik olmayan testlere gecilmelidir
+# sayfa 140da bu formulleri matematiksel olarak vermistir ancak bveri donusumu cok genis bi konu oldugundan detayli islenmemis
+# 2. kitap olan veri biliminde r ve veri onisleme kitabinda islenmis duruyor bunu o kitaba gecince tekrar edecegim
 
+
+
+# sayfa 141 alistirmalari
+
+x <- rnorm(100, mean = 50, sd = 2.5)
+y <- rgamma(100, shape = 4,scale = 3)
+z <- rlnorm(100, meanlog = 1,sdlog = 0.6)
+
+shapiro.test(x)
+shapiro.test(y)
+shapiro.test(z)
+
+
+
+
+par(mfrow=(c(1,3)))
+hist(x, xlab = "x degerleri",probability = T)
+lines(density(x))
+hist(y, xlab = "y degerleri",probability = T)
+lines(density(y))
+hist(z, xlab = "z degerleri",probability = T)
+lines(density(z))
+
+
+
+m <- lm(y~x)
+summary(m)
+shapiro.test(m$residuals)
+mm <- lm(z~x)
+summary(mm)
+shapiro.test(mm$residuals)
+
+
+
+df <- data.frame(deger=c(4.53,4.48,3.83,5.14,5.44,5.49,5.95,3.11,5.03,3.93,6.60,5.64,3.58,4.82,8.03,4.53,2.40,7.46,7.61,4.41,
+                         5.12,3.67,2.78,3.56,4.00,4.25,4.11,4.79,3.98,4.21),
+                 grup=(c(rep("Grup A",10),rep("Grup B",10),rep("Grup C",10)))) 
+df
+
+# varyans homojenligi soruyo once normallik yapak
+
+
+shapiro.test(df$deger[df$grup=="Grup A"])
+shapiro.test(df$deger[df$grup=="Grup B"])
+shapiro.test(df$deger[df$grup=="Grup C"])
+# hepsi normal dagilim
+shapiro.test(df$deger)
+# geneli de normal dagilim
+
+hist(df$deger~df$grup)
+# ohaaa direkt 3 grafigi birden tekte verdi cok iyimisss
+
+bartlett.test(df$deger~df$grup)
+# H0: homojen varyanslilik gosterir
+# Ha: homojen varyanslilik gostermez
+# p.value 0.005 yani Ha kabul edildi
+
+
+
+df1 <- data.frame(deger=c(3,7,5,5,4,6,3,3,7,1,4,4,6,6,2,8,7,8,3,9,4,7,13,25,49,87,173,345,10,10,25,25,30,30,40,40,50,50),
+                  grup=c(rep("Grup A",20),rep("Grup B",8),rep("Grup C",10)))
+
+df1
+
+hist(df1$deger~df1$grup)
+
+shapiro.test(df1$deger[df1$grup=="Grup C"])
+# A ve C grubu normal B grubu Anormal dagilim gosteriyor
+# genel dagilim da Anormal dagilim 
+
+
+model <- lm(deger~grup, data = df1)
+durbinWatsonTest(model)
+# H0: gruplar birbirinden bagimsizdir, otokorelasyon onemsizdir
+# Ha: gruplar birbirine bagimlidir, otokorelasyon onemlidir
+# p.value 0.02 yani H0 reddedildi. gruplar birbirine bagimli cikti aga
+# otokorelasyon degerim 0.37 bu da pozitif yonlu bi bagimlilik var demektir.
+
+
+
+
+df2 <- data.frame(deger=c(11.23,9.80,9.05,9.66,8.40,10.06,10.60,8.74,8.96,8.67,27.46,24.60,23.10,24.32,21.80,25.12,26.20,22.48,22.92,22.34,
+                          16.75,11.75,11.30,15.13,14.21,14.25,14.78,18.52,13.98,13.64),
+                  grup=c(rep("Grup A",10),rep("Grup B",10),rep("Grup C",10)))
+df2
+
+hist(deger~grup, df2)
+
+shapiro.test(df2$deger)
+shapiro.test(df2$deger[df$grup=='Grup C'])
+# hepsi kendi icinde normal ama genel olarak baktiginda degil
+
+
+modell <- lm(deger~grup,df2)
+
+durbinWatsonTest(modell)
+# H0: gruplar birbirinden bagimsizdir, otokorelasyon onemsizdir
+# Ha: gruplar birbirine bagimlidir, otokorelasyon onemlidir
+# p.value 0.96 yani kessssinlikle H0 kabul edildi sakin laaa yani iliski yok ha
+
+
+
+
+
+
+
+df3 <- data.frame(meyveagr=c(57,46,54,55,43,40,55,49,62,52,50,41),
+                  yontem=c(rep(1,4),rep(2,4),rep(3,4)))
+df3
+
+
+library(psych)
+
+describeBy(df3$meyveagr, group = df3$yontem,digits = 2)
+# inceleyip normallikler, homojenlikler hakkinda dusunelim
+
+
+shapiro.test(df3$meyveagr)
+# normal
+
+bartlett.test(df3$meyveagr~df3$yontem)
+# homojen varyans
+
+
+mod <- lm(meyveagr~yontem,df3)
+summary(mod)
+
+durbinWatsonTest(mod)
+# H0: gruplar birbirinden bagimsizdir, otokorelasyon onemsizdir
+# Ha: gruplar birbirine bagimlidir, otokorelasyon onemlidir
+# bagimsizdir p degeri 0.23
+
+
+hist(df3$meyveagr)
+hist(meyveagr~yontem,df3,prob = T,ymax = 0.2)
+
+par(mfrow=c(1,3))
+hist(df3$meyveagr[df3$yontem==1],probability = T)
+lines(density(x = df3$meyveagr[df3$yontem==1]))
+
+hist(df3$meyveagr[df3$yontem==2],probability = T)
+lines(density(x = df3$meyveagr[df3$yontem==2]))
+
+hist(df3$meyveagr[df3$yontem==3],probability = T)
+lines(density(x = df3$meyveagr[df3$yontem==3]))
+
+qqPlot(df3$meyveagr~df3$yontem)
+
+
+library(ggplot2)
+qqplot(df3$yontem,df3$meyveagr)
 
 
