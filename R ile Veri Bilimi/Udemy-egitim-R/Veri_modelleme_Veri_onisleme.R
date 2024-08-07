@@ -46,7 +46,6 @@ df$wordfreq<- minMaxNorm(df$wordfreq)*100
 
 
 ##### scaling (olceklendirme- standartlastirma) islemi #####
-
 ?scale 
 # x numeric matrix 
 # center ortalamsi
@@ -67,7 +66,7 @@ scale(df$vdur,center = 50,scale = 5)
 # centeri 50 scalei 5 olan standartlastirilmis verileri olusturduk
 
 # neden bu sekilde fonk verildi peki
-# modelimizi yaptik diyelim modelimizdeki degiskenler
+# makina ogrenemsi modelimizi yaptik diyelim modelimizdeki degiskenler
 # bu sekilde scale yapilmis degiskenlerdir
 # ve ardindan bi veri geldi ve veriden tahmin yapicaz
 # veriyi once scaleden gecirmek gerekiyor. bu yuzden verinin
@@ -298,9 +297,9 @@ air.cov
 # matris verdi temp-ozone kovaryansi 218 cikti
 # yani birlikte olan degisim katsayilari
 
-# alipsin yari capini hesaplamamiz lazim bunu da kikare dagilimindan bulacagiz
+# elipsin yari capini hesaplamamiz lazim bunu da kikare dagilimindan bulacagiz
 
-rad <- sqrt(qchisq(0.95, df = 2))
+rad <- sqrt(qchisq(p=0.95, df = 2))
 # df kac degisken varsa o kadar sayi gircez
 # 0.95 de olasilik degerim
 # ki kare testi oldugu icin karekok alinmis halini almamiz gerek
@@ -327,7 +326,7 @@ fig <- fig + geom_polygon(data = elipse, color = "orange",
           geom_point(aes(x= air.center[1],y= air.center[2]),
            size = 5, color = "blue")
 
-fig
+  fig
 # elipsi cizdik simdi aciklayayim
 #  fig ile halihazirda yukarida olusturdugumuz grafigi cagirdik
 # + operatoru ile ustune geom_polygon fonksiyonu ile elips cizdirdik
@@ -660,4 +659,346 @@ mean(manip$percentage.in.Algorithms)
 
 
 ##### kayip degerleri gorsellestirme ####
+
+install.packages("VIM")
+library(VIM)
+
+## vim paketiyle gorsellestime
+
+
+names(df)
+
+new_df <- df[c("Acedamic.percentage.in.Operating.Systems","percentage.in.Algorithms",
+               "Percentage.in.Programming.Concepts",
+               "certifications","workshops")]
+View(new_df)
+# sadece bu  5 degisaken uzerine calisicaz
+# sertifika ve calisma yeri kategorik verilerimiz diger 3u sayisal verilerimiz
+
+names(new_df) <- c("operating","algorithms","concepts","certs","works")
+
+fig <- aggr(new_df,col=c("orange","red"),labels=names(new_df),
+            numbers = T,sortVars=T,cex.axis=0.6,
+            ylab = c("Hist of Missing values","pattern"))
+
+
+# ilk degerimiz veri setimiz, renklerde ilk renk aykiri olmayan degerlere
+# ikinci renk ise aykiri degerlere atanacak. labels ver setimdeki adlari
+# numbers gorsellestirmede oranlari goster demek.
+# sortVars buyukten kucuge sirala demek
+
+fig
+# cikan sonuclari degerlendirelim
+# ilk tablo sutunlardaki kayip degerlerin oranlarini veriyor.
+# ikinci tablo soyle aciklayalim
+# en sagdaki kisimda oranlar var
+# en altta ise sutun adlari
+# ilk satir mesela demis ki hic bi sutunumda kayip deger olmamasi durumu ve bu oran 0.77ymis
+# ikinci satira bakalim concepts kismi kirmizi diger kisimler turuncu
+# bu da consepts kismi kayip deger olup digerlerinin degerinin normal oldugu durumlari gosteriyor
+# bu durumun olma orani da 0.04 verilmis. hepsini bu sekilde veriyor burada
+# yorumlama isi sana kaldi artik
+
+# butun degiskenlerimin kayip degerlere gore kombinasyonunu gormus oluyoruz bu sekilde
+
+
+
+marginplot(cbind(new_df$operating,new_df$algorithms))
+# mavi kisimler kayip degerlerin olmadigi kisimlardir
+# kirmizi noktalar da kayip degerler
+# kirmizi ve mavi boxplotlar var
+# mavi boxplot o degiskenin suanki halinin grafigi
+# kirmizi ise diger degiskende nbulunan na degerlerinin icinde bulundugu
+# satirlarin cikarilmasiyla beraber olusacak boxplotun seklidir
+
+
+
+### MICE paketiyle kayip gozlem degerlerini doldurma yontemi ######
+install.packages("mice")
+library(mice)
+library(VIM)
+
+
+names(df)
+
+new_df <- df[c("Acedamic.percentage.in.Operating.Systems","percentage.in.Algorithms",
+               "Percentage.in.Programming.Concepts",
+               "certifications","workshops","reading.and.writing.skills")]
+View(new_df)
+# sadece bu  5 degisaken uzerine calisicaz
+# sertifika ve calisma yeri kategorik verilerimiz diger 3u sayisal verilerimiz
+
+names(new_df) <- c("operating","algorithms","concepts","certs","works","ReadingWriting")
+
+
+fig <- aggr(new_df, col=c("orange","red"),labels=names(new_df),numbers=T,
+            sortVars=T, cex.axis = 0.6,
+            ylab=c("histogram of missing value","pattern"))
+
+
+
+?mice
+
+new_df$ReadingWriting
+
+new_df$ReadingWriting <- factor(new_df$ReadingWriting,
+                                levels = c("poor","medium","excellent"),
+                                ordered = T)
+# ordered ile kucukten buyuge siraladik
+new_df$ReadingWriting
+# siralanmis sekilde
+
+new_df$certs <- as.factor(new_df$certs)
+new_df$works <- as.factor(new_df$works)
+# bu degiskenlerim factor olmali olmayinca yanlis cevap aldim
+
+imputed <- mice(data=new_df, m = 3,maxit = 3,
+                method = NULL, defaultMethod = c("pmm","logreg","lda","polr"))
+
+
+# m degeri imputatiopn yani tekrarlama sayisi
+# default method kismina 4 tane deger girmemiz gerek sayisallar icin siralanmislar icin fln
+# ?mice kisminda bunlari gorebilriz
+# sirasiyla numeric, binary, unordered, ordered degerlerini gircez
+# iter 3 imp 3 3*3 9 kere dondu her iter degeri icin 3 kere calisti
+
+summary(imputed)
+# defaultmethod sayesinde 4 methoddan hangisine uygunsa onu kullan seklinde bi sey yaptik
+# mesela readingwriting ordered yapmistik ve polr kullanmis wokrs ve certs sadece faktor lda kullanmis
+# digerleri de numeric oldugunda pmm kullanmis
+
+names(imputed)
+
+imputed$m
+# kere imputation yapmis yani
+
+imputed$imp
+imputed$imp$operating
+imputed$imp$ReadingWriting
+
+
+implutedData2 <- complete(imputed, 3)
+
+View(implutedData2)
+# artik burda na degerim kalmadi
+# farkli yontemler kullanmarak atama islemi yaptik
+
+
+# kendim deneme yapcam
+imputed <- mice(data=new_df, m = 5,maxit = 5,
+                method = NULL, defaultMethod = c("pmm","logreg","lda","polr"))
+
+
+implutedData3 <- complete(imputed, 5)
+View(implutedData3)
+
+
+
+imputed <- mice(data=new_df, m = 10,maxit = 10,
+                method = NULL, defaultMethod = c("pmm","logreg","lda","polr"))
+
+
+implutedData4 <- complete(imputed, 10)
+View(implutedData4)
+
+# oylesine uzun sureli denedim bi ya ama veriler her birinde farkli sekilde doldugunu fark ettim. neden acaba
+
+implutedData5 <- complete(imputed, "broad")
+View(implutedData5)
+
+# broad hepsini ayri ayri sutunlarda veriyor bir de kategorileri degisek
+?mice
+imputed1 <- mice(data=new_df, m = 3,maxit = 3,
+                method = NULL, defaultMethod = c("mean","logreg.boot","polyreg","polr"))
+summary(imputed1)
+dataimp <- complete(imputed1,3)
+View(dataimp)
+# mesela burda numeric istrenen yere mean dedik ve o da ortalamayi atti
+# o yuzden degerlerim float oldu
+# digerlerinde de farkli yontemler kullandik
+prop.table(table(new_df$certs))
+
+
+imputed2 <- mice(data=new_df, m = 5,maxit = 5,
+                method = c("rf","cart","rf","sample","sample","polr"))
+# burda da methodlari sirasiyla sutunlar icin yerlestirdik.
+
+tbl <- complete(imputed2,5)
+View(tbl)
+
+##### amelia ile kayip gozlem degerlendirme####
+
+install.packages("Amelia")
+library(Amelia)
+
+# MCAR - kayip gozlem gozlemlenen degerlere ve kayip degerlere dayali degil
+# MAR - missing at random - kayip gozlem, gozlenen degerleri dayali
+# MNAR - missin not at random - kayip gozlem gozlenmeyen bir degere bagli
+
+df <- student_placement_data_with_NA
+
+# mice briden fazla yontem var ve tum dagilimlara uygulayabiliriz
+# ameliya ortalama ve kovaryans uzerinden doldurmaya calisir
+# boostraping yani verilerden ornekler alir orneklere exp normalitation uyguluo
+# degiskenlerimizin cok degiskenli normallik varsaymi saglanirsa ameliadan cok dogru 
+# sonuclar alabiliriz   
+
+
+
+new_df <- df[c("Acedamic.percentage.in.Operating.Systems","percentage.in.Algorithms",
+               "Percentage.in.Programming.Concepts",
+               "certifications","workshops","reading.and.writing.skills")]
+View(new_df)
+
+names(new_df) <- c("operating","algorithms","concepts","certs","works","ReadingWriting")
+  
+
+new_df$certs <- as.factor(new_df$certs)
+new_df$works <- as.factor(new_df$works)
+
+new_df$ReadingWriting <- factor(new_df$ReadingWriting,
+                                levels = c("poor","medium","excellent"),
+                                ordered = T)
+
+
+
+?amelia
+result <- amelia(x= new_df,m = 3,noms = c("certs","works"),
+       ords = c("ReadingWriting"))
+
+summary(result)
+names(result)
+
+result$imputations
+
+write.amelia(result, file.stem = "results")
+# cvs olarak kaydettik
+
+
+
+
+
+##### missForest ile kayip gozlem degerlendirmesi#####
+
+install.packages("Hmisc")
+install.packages("mi")
+library(Hmisc)
+library(mi)
+
+df <- student_placement_data_with_NA
+
+new_df <- df[c("Acedamic.percentage.in.Operating.Systems","percentage.in.Algorithms",
+               "Percentage.in.Programming.Concepts",
+               "certifications","workshops","reading.and.writing.skills")]
+View(new_df)
+
+names(new_df) <- c("operating","algorithms","concepts","certs","works","ReadingWriting")
+
+
+new_df$certs <- as.factor(new_df$certs)
+new_df$works <- as.factor(new_df$works)
+
+new_df$ReadingWriting <- factor(new_df$ReadingWriting,
+                                levels = c("poor","medium","excellent"),
+                                ordered = T)
+
+?impute # verilen degiskeni belirttigimiz fonk ile na degerleri yerine atar
+?aregImpute 
+?mi
+
+result <- impute(new_df$operating,fun = median)
+# na degerlere medyan degeri atar
+as.numeric(result)
+# numeric cev??iriis yapmamiz lazim digeri tablo veriyo
+
+# fun= mean,median fln ne istersen yazariz ona gore atar. "random"
+# yazarsak eger random sayi atar
+
+
+result <- aregImpute(~ operating + algorithms + concepts+ certs,
+                     data = new_df,n.impute = 3)
+# imputetion islemini regresyon kullanmarak yapiyor
+
+summary(result)
+names(result)
+
+result
+
+
+
+
+result <- mi(new_df, n.iter = 2)
+
+# bi turlu calistirmadi hatta cok uzun surdu o yuzden paketi biz aciklayalim
+
+summary(result)
+# bunu yazip kontrol ediyoruz operatins$imputed var mesela 
+# na degerleri yerine deger atandiktan sonraki ozet bilgileri vermis
+# operating icin. operating$observed ise onceki haliydi
+# numerix degerler icin boyle veriyor.
+# kategorik veya factorler icin diyelim. hangi levelde kac tane veri vardi
+# ve kac tane na degere atama yaptik yaziyo. bu kadar bunu normal calistirip da
+# ya da atama yapip da direkt tabloyu elde edebiliriz. orasini chatgptden bakcam
+
+
+summary(result)
+
+
+cm <- complete(result,1)
+# bu atamada hangi tabloda hangi degerler kayipti onu gosteren true false
+# kismi da var ayriyetten
+
+
+
+##### hmisc ile kayip gozlem doldurma ####
+
+install.packages("missForest")
+library(missForest)
+
+df <- student_placement_data_with_NA
+
+new_df <- df[c("Acedamic.percentage.in.Operating.Systems","percentage.in.Algorithms",
+               "Percentage.in.Programming.Concepts",
+               "certifications","workshops","reading.and.writing.skills")]
+View(new_df)
+
+names(new_df) <- c("operating","algorithms","concepts","certs","works","ReadingWriting")
+
+
+new_df$certs <- as.factor(new_df$certs)
+new_df$works <- as.factor(new_df$works)
+
+new_df$ReadingWriting <- factor(new_df$ReadingWriting,
+                                levels = c("poor","medium","excellent"),
+                                ordered = T)
+
+
+?missForest
+
+library(rstatix)
+df1 <- sample_n_by(new_df,size = 5000)
+df1 <- as.data.frame(df1)
+
+res <- missForest(df1,maxiter = 4)
+# daha kisa sursun diye veriyi kuculttuk 5000 tane olesine veri aldik
+
+
+summary(res)
+
+
+res
+# imputation yapilmis halini veriyor.
+# MRMSE yazan yer 1.02 cikmis numeric degerlere imputation 
+# yapinca ki hata duzeyi
+# PFC bu da kategoriklerdeki hata duzeyi 0.76 verdi
+# bunlar ne kadar az ise o kadar iyi
+
+
+res$imp
+# imputation yapilmis hali geliyo
+
+a <- complete(res,2)
+
+
+
 

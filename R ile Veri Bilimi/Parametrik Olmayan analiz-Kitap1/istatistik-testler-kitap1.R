@@ -353,3 +353,24 @@ library(ggplot2)
 qqplot(df3$yontem,df3$meyveagr)
 
 
+
+# na degerlerime 0 atayip diger degerlerimin rankini 2den baslatma sorusu cozumu
+
+# Veri seti
+x <- c(10, 16, NA, 34, 14, 30, 7, 11, NA, 24, 22, 15, 7, 18, 20)
+
+# NA de??erleri en ba??a alarak s??ralama
+ranks <- rank(x, na.last = "keep", ties.method = "first")
+
+# NA de??erlerinin s??ralamas??n?? 0 olarak ayarlay??n
+ranks[is.na(x)] <- 0
+
+# NA olmayan de??erlerin s??ralamas??n?? 2'den ba??latacak ??ekilde d??zenleyin
+ranks[!is.na(x)] <- rank(x, na.last = "keep", ties.method = "first")[!is.na(x)] + 1
+
+# Sonu??lar?? g??r??nt??leyin
+print(ranks)
+
+
+
+

@@ -65,8 +65,8 @@ table(soru1)
 sonuc <- chisq.test(table(soru1))
 # frekans tablosunu girdik
 
-# H0: beklenen de??erler g??zlemlenen de??erlere e??ittir
-# Ha: beklenen de??erler g??zlemlenen de??erlere e??it de??ildir
+# H0: beklenen degerler gozlemlenen degerlere esittir
+# Ha: beklenen degerler gozlemlenen degerlere esit degildir
 # p degerini 0.002 verdi 
 # H0 reddedildi Ha kabul edildi
 
@@ -74,7 +74,7 @@ sonuc$expected
 # beklenen degerlerim 11-11-11-11-11 geldi
 
 sonuc$observed
-# kat??l??yorumda yo??unla??ma var.
+# katiliyorumda yogunlasma var.
 
 sonuc2 <- chisq.test(table(soru1), p=c(0.1,0.2,0.5,0.2,0.1))
 # toplam?? 1e esit olmal??yd??
@@ -104,7 +104,7 @@ df1 <- data.frame(x=SPSS_Gorus_Anketi$`Mesle??im gere??i istatistik yaz??l??mlar
 
 table(df1$x,df1$y)
 # bir frekans tablosu yaptik data.frame olarak geldi. 
-# sat??r sat??r olan sorular x sutunlarda olan sorular ise y k??sm??na ait sorular.
+# sat??r sat??r olan sorular x, sutunlarda olan sorular ise y k??sm??na ait sorular.
 # bunlar??n kesisim soruclar??n?? verdi
 
 # ki kare ile bu tabloyu degerlendirelim bakal??m. ili??ki var m?? aralar??nda
@@ -118,7 +118,7 @@ prop.table(table(df1))
 # df[1,1] icin ornek yapalim ilk satir ilk sutunda buluyor deger
 # ilk satir degerler toplami 5
 # ilk sutun degerler toplam?? 2
-# 2*5=20
+# 2*5=10
 # tablodaki tum degerlere bolunur
 # tum degerler = 55
 # 10/55 beklenen deger
@@ -131,8 +131,8 @@ sonuc <- chisq.test(tbl)
 # toplam 25 degerimiz var %20si 5 yapar 5den fazla 5 degerinden kuck degerimiz oldugu icin
 # uyari mesaji aldik. 
 
-# H0: ??ki de??i??ken birbirinde  ba????ms??zd??r. ili??ki yoktur
-# Ha: ??ki de??i??ken birbirine ba????ml??d??r. ili??ki vard??r
+# H0: iki degisken birbirinde  bagimsizdir. ili??ki yoktur
+# Ha: iki degisken birbirine bagimlsdir. ili??ki vard??r
 sonuc$p.value
 # p degerim 0a cok yak??n yani H0 reddedildi Ha kabul edildi.
 # sonuc olarak ilk soruya verilen cevapla ikinci soruya verilen cevap birbirini etkiliyor
