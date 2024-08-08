@@ -27,6 +27,19 @@ df <- doldurulmus[1:14]
 df <- as.data.frame(df)
 # test edebilmek icin data.frame olmalidir
 
+pdeger <- numeric(length = 10)
+for (i in 1:10) {
+  orneklem <- sample(df$Acedamic.percentage.in.Operating.Systems, 300)
+  test <- shapiro.test(orneklem)
+  p <- test$p.value
+  pdeger[i] <- p
+}
+mean(pdeger)
+# normal dagilmayan veri. isaret testi kullanilir
+
+hist(df$Acedamic.percentage.in.Operating.Systems)
+# cok da belli normal dagilmadigi
+
 #BSDA kutuphanesinden
 SIGN.test(df$Acedamic.percentage.in.Operating.Systems,md = 70,alternative = "greater",conf.level = 0.95)
 # Isletim Sistemlerinde Akademik Yuzde degiskeninin verilerini analiz ediyoryuz
@@ -121,13 +134,20 @@ g <- sign.test(df$Percentage.in.Mathematics,mu = 79,alternative = "greater")
 g$p.value
 
 
+n <- 9
+s <- 4
+
+res <- signtest.prob(n=n,s=s,alternative = "two.sided")
+res$p.value
+#1 verdi
+# n ortanca deger atilinca elde ettigim tum veri sayisi,
+# s minimum s+- sayilarindan olan s+=4,s-=5 idi.
 
 
+# isaret testi icin gerekli kutuphaneler
 
-
-
-
-
-
+install.packages("BDSA") #SING.test
+install.packages("DescTools") #SignTest
+install.packages("signmedian.test") #signmedian
 
 

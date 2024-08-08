@@ -12,3 +12,4 @@ signtest.prob <- function(n,s,alternative="two.sided"){
   }
   list(hipotez=alternative , n=n,s=s,p.value=p.value)
 }
+
