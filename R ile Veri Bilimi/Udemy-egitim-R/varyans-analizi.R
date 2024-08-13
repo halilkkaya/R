@@ -178,7 +178,7 @@ summary(anov)
 anova_test(df_clean_df,dv = chol, between = age_groups)
 # ges 0.032
 
-# anlami bag??ms??z degiskenimiz bagimli degiskenimizi ne kadar etkiliyor
+# anlami bagimsiz degiskenimiz bagimli degiskenimizi ne kadar etkiliyor
 # onu veriyor
 # yani yas gruplari kolestrolu ne kadar etkilemis onun oran??n?? soyluyor
 # yas gruplar?? kolestrolu 0.03 etkiliyor
@@ -301,7 +301,7 @@ library(rstatix)
 # varsayim testlerini yapalim normallik homojenlik fln
 df <- heart %>% filter(chol<394)
 
-# gruplar?? cp ve fbs olarak ay??rd??m. 
+# gruplari cp ve fbs olarak ayiirdim. 
 # cp 3 fbs 1
 # cp 3 fbs 0 gibi olcak yani
 # ve hepsine tek bi islemde shapiro normallik testi yapcam
@@ -386,7 +386,7 @@ df1$int_group <- int_groups
 df1
 
 
-ggboxplot(df1, x= 'int_group','y=trestbps', 
+ggboxplot(df1, x= 'int_group',y='trestbps', 
           title  = 'Boxplot Grafigi',
           color = 'orange')
 

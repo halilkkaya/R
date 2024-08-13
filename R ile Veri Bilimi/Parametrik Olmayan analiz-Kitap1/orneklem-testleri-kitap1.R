@@ -150,4 +150,58 @@ install.packages("BDSA") #SING.test
 install.packages("DescTools") #SignTest
 install.packages("signmedian.test") #signmedian
 
+library(DescTools)
+library(signmedian.test)
+
+
+##### wilcoxon sira sayilar testi #####
+
+x <- c(5,3,4,2,4,2,2,4,1,2)
+# ciftcilerin ankete verdigi ceavplar bunlardir. eski ankete verdikleri cevabin ortanca degeri 3 idi
+
+# ciftcilerin goruslerinin artmasi ihtimalini arastiriyoruz
+wilcox.test(x,mu = 3,alternative = "greater",exact = F,conf.int = T,conf.level = 0.95)
+# H0: ciftcilerin gorusleri artmamistir(ortanca degerim 3 veya daha azdir)
+# Ha: ciftcilerimin gorusleri artmistir(ortanca degerim 3den buyuktur)
+# p degerim 0.62 yani ciftcilerimin gorusleri icin olumlu yonde bir degisim var diyemeyiz
+
+# exact kesinlilk degerimdir. hata veriyor diye false yaptim
+
+# ciftcilerimin goruslerinin azalma ihtimali
+wilcox.test(x,mu=3,alternative = "less",exact = F,conf.int = T,conf.level = 0.95)
+# H0: ciftcilerimin gorusdu azalmamistir(ortanca degerim 3veya buyuktur)
+# Ha: ciftcilerimin gorusu azalmistir(ortanca degerim 3ten kucuktur)
+# p degerim 0.42 yani ciftcilerimin goruslerinin olumsuz yonde degistigini soyleyemeyiz
+
+
+wilcox.test(x,mu = 3,alternative = "two.sided",exact = F,conf.int = T,conf.level = 0.95)
+# H0: ciftcilerin goruslerinde degisim olmamistir(ortanca deger 3e esittir)
+# Ha: ciftcilerin goruslerinde degisim olmustur(ortanca deger 3e esit degildir)
+# p degerim 0.85 ciftcilerin goruslerinde bir degisim olmamistir diyoruz.
+
+# hoca kitapta yorumlari bu sekilde yapmaktadir ona gore yorumlara bu sekilde anlam katmayi ogren
+
+
+a <- wsrt.exact(x,mu = 3,alternative = "two.sided",conf.level = 0.95)
+a$p.value
+# kendi yaptigimiz wilcoxon testi. p value 0.91 cikti bunda
+# H0: ciftcilerin goruslerinde degisim olmamistir(ortanca deger 3e esittir)
+# Ha: ciftcilerin goruslerinde degisim olmustur(ortanca deger 3e esit degildir)
+# H0 kabul edildi. ciftcilerin goruslerinde degisim olmamistir.
+
+a$pop.med.CI
+# guven araligidir.
+a$wneg
+# negatif sayilar toplami
+a$wpos
+# pozitif sayilar toplami
+a$n
+# toplam degisken sayisi, m=m0'a esit olanlar haric
+a$n0
+# m=m0'a esit olan sayilar toplami
+a$w
+# alternative teste gore secilecek olan negatif toplamlar veya pozitif toplamlar
+# two.sided ise min(pozitif,negatif)
+# less ise pozitif toplamlar
+# greater ise negatif toplamlari verir
 
