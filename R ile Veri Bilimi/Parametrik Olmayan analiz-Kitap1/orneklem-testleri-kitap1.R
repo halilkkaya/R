@@ -205,3 +205,188 @@ a$w
 # less ise pozitif toplamlar
 # greater ise negatif toplamlari verir
 
+# alistirmalar
+x <- c(1,1,2,3,3,3,4,5,5,6,6,7,8,10,21,22,25,27,33,40,42,50,55,75,82)
+
+library(BSDA)
+SIGN.test(x = x,md = 30,alternative = "less",conf.level = 0.95)
+# H0: x vectorunun ortanca degeri 30dan kucuk degildir
+# Ha: x vectorunun ortanca degeri 30dan kucuktur
+# p.value 0.02 H0 reddedildi Ha kabul edildi.
+library(DescTools)
+SignTest(x = x,mu = 30,alternative = "greater",conf.level = 0.95)
+# H0: x vectorunun ortanca degeri 30dan buyuk degildir
+# Ha: x vectorunun ortanca degeri 30dan buyuktur
+# p.value 0.99 H0 kabul edildi. 
+
+# kendi olusturudugumuz fonksiyon. fonksiyonlar klasorumde
+# calismasi icin ayni klasrodeki signtest.prob'u da calistirmak gerek
+sign.test(x = x,mu = 30,alternative = "two.sided",conf.level = 0.99)
+# H0: x vectorunun ortanca degeri 30a esittir
+# Ha: x vectorunun ortanca degeri 30a esit degildir
+# p degerim 0.04 H0 reddedildi
+
+
+
+
+x1 <- c(2.5,2.4,3.1,3.0,2.3,2.6,1.5,3.3,3.1,2.5,2.8,3.3,3.2,2.6,3.4)
+
+# veri sayim 30dan az oldugundan andersondarling kullandik
+AndersonDarlingTest(x1)
+# H0: x veri setim normallik gosteriyor
+# Ha: x veri setim normallik gostermiyor
+# p degerim 0'a cok yakin H0 reddeidldi Ha kabul edildi
+
+library(car)
+durbinWatsonTest(x)
+# H0: bagimsiz verilerdir. otokorelasyon etkisizdir.
+# Ha: bagimli verilerdir. otokorelasyon etkilidir
+# p.value 0.06 H0 kabul edildi
+
+
+hist(x,probability = T,col = "orange",main = "E.coli Bakteri Sayilari")
+
+# gorsel uzerinde pek normal gibi durmuyor
+
+# Varsayimlar: Normallik gostermiyor. Bagimsizlik var
+# signtest kullanacagiz
+
+# yine de ttestina bi bakalim
+t.test(x = x, mu = 3.5, alternative = "less",conf.level = 0.95)
+# H0: bakteri sayimda dusus yoktur
+# Ha: bakteri sayimda dusus vardir
+# p.value 0a cok yakin H0 reddedildi Ha kabul edildi
+# bakteri sayimda dusus varmis
+
+SignTest(x = x, mu = 3.5, alternative = "less",conf.level = 0.95)
+# H0: bakteri sayimda dusus yoktur
+# Ha: bakteri sayimda dusus vardir
+# p.value cok cok ufak sekilde artti ama yine de onemsiz derecede H0 reddedildi Ha kabul edildi
+
+install.packages("fuzzyRankTests")
+library(fuzzyRankTests)
+# bulanik isaret testi oluyor bu
+fuzzy.sign.test(x = x,alternative = "less",mu = 3.5)
+# H0: bakteri sayimda dusus yoktur
+# Ha: bakteri sayimda dusus vardir
+# SignTest ile ayni sonucu verdi
+
+
+
+x <- c(76,87,85,94,60,73,64,76,97,59,53,63,87,100,92)
+# fonksiyonlar kutuphanedem ekledim
+wsrt.exact(x,mu = 70,alternative = "two.sided",conf.level = 0.95)
+# H0: x vectorunun ortanca degeri 70dir
+# Ha: x vectorunun ortanca degeri 70den farklidir
+# p degerim 0.1 H0 kabul edildi
+
+
+# 7 puanli anket sistemi almanlarda ortanca deger 5 imis bu puanlar turklerin
+# aralarindaki farki olc. varsayim testlerini yap once
+puan <- c(1,3,1,7,5,5,5,1,2,2,7,5,4,4,5,2,5,5,7,5)
+
+hist(puan)
+# normallik gostermiyor gibi
+
+# veri sayim 30dan az oldugundan andersondarling kullandik
+AndersonDarlingTest(puan)
+# p degerim 0a cok yakin normallik gostermiyor.
+
+durbinWatsonTest(puan)
+# 0.30 veriler bagimsiz
+
+# isaret (sign) testi mi yoksa wilcoxon testi mi?
+# wilcoxon kullanacagiz sira sayilari testi uygulamamiz gerek
+# dagilim simetrik
+
+wilcox.test(puan,mu = 5,alternative = "two.sided",conf.level = 0.95,conf.int = T,exact = F)
+# H0: Turkler ile Almanlar ayni dusunceye sahip
+# Ha: Turkler ile Almanlar farkli dusunceye sahip
+# p degerim 0.048 0.95 dogruluk oraninda H0 reddedildi Ha kabul edildi
+
+
+# aralik ayi adana yagis kg/m2 degeri. uzun yillardir ortanca 118.2 imis 
+# haberlere artti demislerler kontrol et bakalim
+yagis <- c(119.2,110.7,150.1,201.5,308.5)
+
+
+# veri sayim 30dan az oldugundan andersondarling kullandik
+AndersonDarlingTest(yagis)
+# p degerim 0.00012 normallik gostermiyor degerlerim
+
+SignTest(yagis,mu = 118.2,alternative = "greater")
+# H0: son 5 yilda yagis miktarimda artis olmadi
+# Ha: son 5 yilda yagis miktarimda artis oldu
+# p degerim 0.18 H0 kabul edildi. son 5 yilda yagis miktarimda artis olmamis
+
+# isaret testi kullanma sebebim simetrik bi dagilim gostermemesi
+
+
+##### eslestirilmis orneklem testleri ####
+
+## iki orneklem eslestirilmis isaret testi
+library(BSDA)
+
+kediOnce <- c(157.5,84.5,134.0,74.0,108.0,107.5,106.0,163.0,54.0) # once durgun suda 2 gun bekleyen kedilerin su icme miktari
+kediSonra <- c(164.5,51.5,250.0,139.0,113.0,124.5,95.5,70.5,30.5) # sonra akarsuda 2 gun bekleyen ayni kedilerin su icme miktari
+
+AndersonDarlingTest(kediOnce)
+AndersonDarlingTest(kediSonra)
+# ikisi de normal dagilim gostermiyor
+
+SIGN.test(kediSonra, kediOnce, alternative = "greater",conf.level = 0.95)
+# H0: akarsuda su icme miktarinin ortanca degeri durgun suda su icme miktarindan fazla degildir
+# Ha: akarsuda su icme miktarinin ortanca degeri durgun suda su icme miktarindan fazladir
+# p degerim 0.5 geldi H0 kabul edildi
+# yani akarsuda su icme miktari durgun suda su icme miktarindan fazla diyemeyiz
+# bir baskan bakis acisiyla kedilerin akarsuya gecmesi su icme miktarlarini arttirdi diyemeyiz
+
+
+
+## wilcoxon testi
+wilcox.test(x = kediSonra, y = kediOnce, alternative = "greater", conf.level = 0.95)
+# H0: akarsuda su icme miktarinin ortanca degeri durgun suda su icme miktarindan fazla degildir
+# Ha: akarsuda su icme miktarinin ortanca degeri durgun suda su icme miktarindan fazladir
+# p degerim 0.5
+# H0 kabul edildi 
+1 - psignrank(22 - 1, 9)
+
+install.packages("exactRankTests")
+library(exactRankTests)
+
+wilcox.exact(x = kediSonra, y = kediOnce, alternative = "greater", conf.level = 0.95)
+# H0: akarsuda su icme miktarinin ortanca degeri durgun suda su icme miktarindan fazla degildir
+# Ha: akarsuda su icme miktarinin ortanca degeri durgun suda su icme miktarindan fazladir
+# p degerim 0.5
+# H0 kabul edildi
+
+
+
+
+grup1 <- c(39,30,35,35,30,43,48,56,40,34,32,59,43,43,52,52,44,53,52,38) # mantar kompost atigi verilen muz grubu
+grup2 <- c(35,25,36,33,25,34,31,39,24,38,29,39,31,31,34,29,38,29,32,24) # ciftlik gubresi verilerm muz grubu
+# soru: mantar kompost atigi veriler grubun agirliklari ciftlik gubresine verilen grubun agirligindan fazla midir? %1 onem duzeyinde bulunuz
+
+muz <- data.frame(agirlik = c(grup1,grup2),
+                  grup= c(rep(1,20), rep(2,20)))
+View(muz)
+muz$grup <- as.factor(muz$grup)
+
+shapiro.test(muz$agirlik)
+# normal dagilim gostermiyor
+
+wilcox.test(x = muz$agirlik[muz$grup==1], y = muz$agirlik[muz$grup==2],alternative = "greater",conf.level = 0.99)
+# H0: mantar kompost atigi verilen muz grubunun agirligi ciftlik gubresi verilenden fazla degildir
+# Ha: mantar kompost atigi verilen muz grubunun agirligi ciftlik gubresi verilenden fazladir
+# p degerim 0a cok yakin geldi. H0 reddedildi Ha kabul edildi
+# yorumu: mantar kompost uygulamasiyla gelistirilen cuce muzlarimin meyve eti agirligi daha fazladir
+# ya da mantar kompost uygulamasi cuce muz uzerinde meyve eti agirligini arttirmaktadir
+
+
+zcetvel()
+
+wilcox.test(agirlik~grup,data = muz,alternative = "greater",conf.level=0.99,
+            exact = F, correct = T)
+# H0: mantar kompost atigi verilen muz grubunun agirligi ciftlik gubresi verilenden fazla degildir
+# Ha: mantar kompost atigi verilen muz grubunun agirligi ciftlik gubresi verilenden fazladir
+# p degerim 0a cok yakin geldi. H0 reddedildi Ha kabul edildi
