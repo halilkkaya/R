@@ -64,7 +64,7 @@ md.pattern(df_albury,plot = F)
 
 ?mice
 
-imp <- mice(data = df_albury,m = 5,method = "pmm")
+imp <- mice(data = df_albury,m = 15,maxit = 15,method = "pmm")
 
 names(imp)
 
@@ -72,7 +72,7 @@ imp$imp
 # bu listede imputation sonuclari var. 
 # biz 3. imputationi secelim
 
-df_alburyImp <- complete(imp, 3)
+df_alburyImp <- complete(imp, 13)
 
 md.pattern(df_alburyImp)
 # kayip gozlem kalmadigini soluyor
@@ -641,14 +641,16 @@ BIC(model3cat)
 
 
 
-
-
 # AIC ve BIC testlerimde verilerim daha iyiye giderken test esnasinda daha kotuye gidiyor 
 # ama test esnasindaki degisiklikler cok cok cok ufak
 # AIC ve BIC ise cok yuksek degisiklikler
 # overfitting durumu oluyor bu da
 
-######
+# varians ve bias furumunu
+# overfitting ve underfitting durumunu 
+# L1 ve L2 duzgunestirmelerini dosyaya yazdim ordan okucam tekrar icin
+
+
 
 
 
