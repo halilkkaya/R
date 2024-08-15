@@ -390,3 +390,142 @@ wilcox.test(agirlik~grup,data = muz,alternative = "greater",conf.level=0.99,
 # H0: mantar kompost atigi verilen muz grubunun agirligi ciftlik gubresi verilenden fazla degildir
 # Ha: mantar kompost atigi verilen muz grubunun agirligi ciftlik gubresi verilenden fazladir
 # p degerim 0a cok yakin geldi. H0 reddedildi Ha kabul edildi
+
+
+
+library(ggplot2)
+library(ggpubr)
+
+ggdensity(muz, x="agirlik",add = "median",color = "grup",fill = "grup",palette = c("blue","red"))
+# ver??lerin dagilis grafigini veren yogunluk grafigidir. guzel bi cizimmis kalsin
+
+
+
+
+ks.test(agirlik~grup, muz)
+# H0: orneklemler ayni dagilisa sahiptir
+# Ha: orneklemlerim dagilisi farklidir.
+# p degeri 0.0007 H0 reddedildi Ha kabul edildi
+
+
+# alistirmalar sayfa 211
+
+
+
+AnacA <- c(467,493,424,447,451,481,391,489,479,455,497,437,384,481,387)
+AnacB <- c(496,495,520,482,487,481,519,487,468,450,465,505)
+
+library(DescTools)
+AndersonDarlingTest(AnacA)
+AndersonDarlingTest(AnacB)
+# ikisi de normal dagilim degil
+
+
+wilcox.test(AnacA, AnacB,alternative = "two.sided", exact = F)
+# H0: AnacA ve AnacB asi surgunu uzunluklari birbirine esittir
+# Ha: AnacA ve AnacB asi surgunu uzunluklari birbirine esit degildir
+# p degerim 0.01 H0 red 
+# birbirinden farklilardir
+
+
+
+
+p2o5 <- c(274.3,230.2,251.9,276.1,277.4,267.8,223.2,258.8,254.4,247.8)
+k2o <- c(152.9,297.8,164.4,242.7,182.8,170.7,225.6,176.6,203.1,207.01)
+
+AndersonDarlingTest(p2o5)
+AndersonDarlingTest(k2o)
+# ikisi de normal degil
+
+df <- data.frame(agirlik=c(k2o,p2o5),
+                 grup=c(rep("k2o",length(k2o)),rep("p2o5",length(p2o5))))
+df
+
+wilcox.test(agirlik~grup, data = df, alternative = "two.sided", conf.level=0.95)
+# H0: Gruplar arasi agirlik birbirine esittir
+# Ha: Gruplar arasi agirlik birbirine esit degildir
+# p degerim 0.03 gruplar arasi agirlik esit degildir
+
+
+wilcox.test(x = df$agirlik[df$grup=="p2o5"],y = df$agirlik[df$grup=="k2o"] , alternative ="less", conf.level = 0.95)
+# H0: p2o5 verilen kerevizin agirligi k20 verilen kerevizin agirligindan kucuk degildir 
+# Ha: p2o5 verilen kerevizin agirligi k20 verilen kerevizin agirligindan kucuktur
+# p degerim 0.9986 H0 kabul.
+# p205 gubresi kerevizlerin daha cok agirlasmasini saglamaktadir.
+
+
+
+
+cesitA <- c(0.20,0.19,0.14,0.18,0.21,0.21,0.19,0.18,0.20,0.19,0.20,0.18,0.18,0.19,0.16)
+cesitB <- c(0.15,0.13,0.13,0.14,0.14,0.14,0.12,0.14,0.14,0.14,0.13,0.13,0.13,0.12,0.16)
+
+length(cesitA)
+AndersonDarlingTest(cesitA)
+AndersonDarlingTest(cesitB)
+# normla dagilim gostermiyolar
+
+CinkoCesit <- data.frame(etki=c(cesitA,cesitB),
+                         cesit = c(rep("A",length(cesitA) ), rep("B", length(cesitB))))
+CinkoCesit
+
+wilcox.test(etki~cesit, data = CinkoCesit, alternative = "two.sided", conf.level = 0.95, exact = F)
+# H0: Cesitler arasi agirlik farki 0dir/ cesitlerin agirliklara etkisi esittir
+# Ha: cesitler arasi agirlik farki vardir/ cesitlerin agirliklara etkisi farklidir
+# p degerim 0a cok yakin H0 kabul edildi
+
+wilcox.test(cesitA,cesitB,alternative = "two.sided",conf.level = 0.95,exact = F)
+# usttekiyle ayni sonucu verdi
+# ustteki sekilde yapmamin sebebi buyuk datalarda ayri ayri gelmicek beraber gelcek
+# nasil kullanman gerektigini ogren
+
+
+AyemKuzu <- c(68,67,73,92,81,73,59,66)
+ByemKuzu <- c(72,78,79,85,78,69,65,63)
+
+kuzu <- data.frame(agirlik = c(AyemKuzu,ByemKuzu),
+                   kuzu = c(rep("A",length(AyemKuzu)),rep("B",length(ByemKuzu))))
+kuzu
+
+wilcox.test(agirlik~kuzu, data = kuzu, alternative="two.sided", conf.level=0.95, exact=F)
+# H0: yemlerin agirliklara etkisi esittir.
+# Ha: yemlerin agirliklara etkisi farklidir
+# p degeri 0.80 H0 kabul
+
+library(MASS)
+
+View(cabbages)
+
+length(cabbages$VitC[cabbages$Cult=="c39"])
+# 30 veri var
+shapiro.test(cabbages$VitC[cabbages$Cult=="c39"])
+shapiro.test(cabbages$VitC[cabbages$Cult=="c52"])
+
+t.test(VitC~Cult, data = cabbages, alternative="two.sided", conf.level = 0.99)
+wilcox.test(VitC~Cult, data = cabbages, alternative="two.sided", conf.level = 0.99,exact=F)
+# H0: Gruplar arasi vitamin farki yoktur
+# Ha: gruplar arasi vitamin farki vardir
+# p degeri 0a cok yakin H0 red. Ha kabul.
+
+
+Vitc39 <- cabbages$VitC[cabbages$Cult=="c39"]
+Vitc52 <- cabbages$VitC[cabbages$Cult=="c52"]
+
+wilcox.test(x=Vitc52, y= Vitc39,alternative = "less",conf.level = 0.99, exact = F)
+# H0: c52 grubunun vitamin degerleri c39 grubunun vitamin degerlerinden az degildir
+# Ha: c52 grubunun vitamin degerleri c39 grubunun vitamin degerlerinden azdir
+# p degerim 1 yani H0 kabul
+
+wilcox.test(x=Vitc52, y= Vitc39,alternative = "greater",conf.level = 0.99, exact = F)
+# H0: c52 grubunun vitamin degerleri c39 grubunun vitamin degerlerinden fazla degildir
+# H0: c52 grubunun vitamin degerleri c39 grubunun vitamin degerlerinden fazladir
+# p degerim 0a cok yakin H0 red Ha kabul
+
+
+
+
+
+
+
+
+
+
