@@ -494,6 +494,169 @@ cmOpt_3
 
 
 
+###### logistic regresyon regularization ile model tuning ####
+
+library(glmnet)
+
+# L1 ve L2 regularizationlari kullancaz yine
+
+
+summary(modelLogicNormal)
+# etkisiz elemanlari kontrol ediyoruz. etkisiz olanlarin katsayilari uzerine calisiyoruz
+# daha onceden yaptigimiz gibi. min lambda degerini bulucaz. istersek de degiskenleri de
+# cikarabiliriz. cross validation kullancz
+
+# veri onisleme kismindan alicaz islemleri
+
+head(placement)
+
+## dummy degisken olusturma
+# glm paketinde kullanabilmek icin
+modelDataDummy <- model.matrix( ~ . ,data = placement)
+View(modelDataDummy)
+
+modelDataDummy <- modelDataDummy[,-1]
+# intercepti cikarttik
+modelDataDummy <-as.data.frame(modelDataDummy)
+
+library(tidyverse)
+
+placeDummy <- modelDataDummy %>% filter(statusPlaced == 1)
+NotplaceDummy <- modelDataDummy %>% filter(statusPlaced == 0)
+
+nrow(placeDummy)
+nrow(NotplaceDummy)
+
+set.seed(15)
+placeIndexDummy <- sample(1:nrow(placeDummy), size = nrow(NotplaceDummy)*0.75)
+set.seed(15)
+NotplaceIndexDummy <- sample(1:nrow(NotplaceDummy), size = nrow(NotplaceDummy)*0.75)
+
+ 
+trainPlacedDummy <- placeDummy[placeIndexDummy,]
+trainNotPlacedDummy <- NotplaceDummy[NotplaceIndexDummy,]
+
+trainDummy <- rbind(trainPlacedDummy,trainNotPlacedDummy)
+table(trainDummy$status)
+
+
+testPlacedDummy <- placeDummy[-placeIndexDummy,]
+testNotPlacedDummy <- NotplaceDummy[-NotplaceIndexDummy,]
+
+
+testDummy <- rbind(testPlacedDummy,testNotPlacedDummy)
+table(testDummy$status)
+
+
+## veri onisleme bitti Regularization islemlerine gecelim
+library(glmnet)
+
+y = trainDummy$statusPlaced
+x = trainDummy[-(length(trainDummy))]
+
+x = as.matrix(x)
+
+
+modelLogitLassoCV <- cv.glmnet(x, y, alpha =1 , family = "binomial" )
+modelLogitLassoCV
+# alpha 1 oldugundan lasso dedik 0 olsa r??dge oluyodu 0-1 arasinda olsa elastic
+
+modelLogitLassoCV$glmnet.fit
+
+plot(modelLogitLassoCV)
+
+lambdaMin <- modelLogitLassoCV$lambda.min
+# en iyi lambda degerim
+
+coef(modelLogitLassoCV,modelLogitLassoCV$lambda.min )
+# katsayilarim geldi ve . koyulanlar kaldirilan degiskenler demek.
+# hangi degiskenim hangi katsayiyla etki veriyor gibisinden
+
+summary(modelLogicNormal)
+
+# model olusturalim
+
+modelLogitLasso <- glmnet(x, y, alpha =1 , family = "binomial", lambda = lambdaMin)
+
+modelLogitLasso
+modelLogicNormal
+
+modelLogitLasso$nulldev
+# 138
+deviance(modelLogitLasso)
+# 53
+
+# residual deviance degerim artmis modelimi kotu etkilemis yani onceki 34 idi
+# test seti uzerinden tahmin yapalim
+
+testControl <- as.matrix(testDummy[,-15])
+# bizim tahmin etmeye calistigimiz deger olan statusu cikarip digerleirni de matrix turune donusturduk
+head(testControl)
+
+actuals <- testDummy[,15]
+
+predLasso <- predict(modelLogitLasso, testControl, type = "response")
+# skorlar elde edilir. response o yuzden kondu
+predLasso
+
+
+# cutoff degerimi bulalim
+rocr_predLasso <- prediction(predLasso, testDummy$status)
+rocr_perfLasso <- performance(rocr_predLasso,"tpr","fpr")
+plot(rocr_perfLasso,colorize=T,print.cutoffs.as=seq(0.1,by = 0.1))
+
+cost_perfLasso <- performance(rocr_predLasso,"cost")
+rocr_predLasso@cutoffs[[1]][which.min(cost_perfLasso@y.values[[1]])]
+# 0.12 degerini aldim bunu bi yere atayalim dursun
+
+optCutoffLasso <- rocr_predLasso@cutoffs[[1]][which.min(cost_perfLasso@y.values[[1]])]
+optCutoffLasso
+
+
+predActuals <- ifelse(actuals==1,"Placed","Not Placed")
+predBinaryLasso <- ifelse(predLasso > optCutoffLasso, "Placed", "Not Placed")
+
+
+
+library(caret)
+
+confusionMatrix(as.factor(predBinaryLasso),as.factor(predActuals), positive = "Placed")
+# yotumlayalim
+# dogurluk 0.92 cok iyi
+# p degerim 0.008 cok iyi
+# kappa 0.7'ye cikmis iyi bi degisim
+# mcnemar 0.75den 0.72ye dusmus kotu olmus bu
+# Sensitivity degerim cok ufak artmis iyi
+# specificity degerim artmis yani not place degerlerimi dogru tahmin etme oranim artmis
+# Neg Pred Value degerim artmis o da aynisini soyluyo bi usttekiyle
+# Balanced Accuracy degerim de artmis bu da dengeli dogruluk yani hem placed hem de not placed tahmin
+# etme dogrulugum oluyo artmasi iyi bisi
+
+confusionMatrix(as.factor(predBinaryLasso),as.factor(predActuals), positive = "Not Placed")
+# not placed ile de akrsilastirdil
+cmOpt_2 # not placed eski model
+cmOpt_3 # placed eski model
+# karsilastiralim
+confusionMatrix(as.factor(predBinaryLasso),as.factor(predActuals), positive = "Placed",
+                mode = "prec_recall")
+cmOpt_4
+
+# f1 skorlarina bakalim bir de
+# placed icin cok cok yakin degerler ama yeni modelde daha da artmis cok iyi
+# notplaced icin de bakalim
+
+confusionMatrix(as.factor(predBinaryLasso),as.factor(predActuals), positive = "Not Placed",
+                mode = "prec_recall")  # yeni
+
+confusionMatrix(as.factor(predBinary1), 
+                           as.factor(testNormal$status),
+                           positive = "Not Placed",mode = "prec_recall") # eski
+# not placedlar icersinde yeni modelim cok daha iyi tahmin yapabildigini gorduk
+# degerler iyi bi sekilde artmis ve hepsi 70 ustune cikmis hatta 80 olan var cok iyiyiii 
+
+
+# yeni modelim daha iyi gibi gozukuyor. lasso guzel yonde etkilemis gibi duruyor
+
 
 
 
