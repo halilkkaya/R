@@ -152,6 +152,7 @@ reversedData$clusterK2 <- clusterModelK2$cluster
 reversedData$clusterK3 <- clusterModelK3$cluster
 a
 b
+c
 reversedData %>% group_by(clusterK2) %>% summarise_all(mean)
 # video 332 anlatiyor
 # kumelerimin arasindaki mesafe fazla anlamli bi kumeleme duruyor
