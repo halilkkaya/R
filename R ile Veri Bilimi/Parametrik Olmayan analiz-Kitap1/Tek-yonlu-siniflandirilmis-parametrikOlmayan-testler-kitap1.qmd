@@ -1,0 +1,106 @@
+---
+title: "kitap1"
+format: html
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+BudamaYontem <- data.frame(KavunAgr = c(790,810,800,815,805,825,820,815,810,820,815,805,770,785,765,780,800,770,760,770,750,770,760,765),
+                           grup= c(rep("A",6),rep("B",6),rep("C",6),rep("D",6)))
+head(BudamaYontem)
+```
+
+You can add options to executable code like this
+
+```{r}
+AndersonDarlingTest(BudamaYontem$KavunAgr[BudamaYontem$grup=="A"])
+AndersonDarlingTest(BudamaYontem$KavunAgr[BudamaYontem$grup=="B"])
+AndersonDarlingTest(BudamaYontem$KavunAgr[BudamaYontem$grup=="C"])
+AndersonDarlingTest(BudamaYontem$KavunAgr[BudamaYontem$grup=="D"])
+shapiro.test(BudamaYontem$KavunAgr)
+```
+
+Burada verilerimizin normalliğini her iki yöntemle de ölçtük ve normal çıkmadı
+
+```{r}
+library(ggpubr)
+
+ggboxplot(data = BudamaYontem, x="grup", y="KavunAgr",
+          color = "grup",
+          palette = c("red","blue","darkblue","black"),
+          order = c("A","B","C","D"),
+          ylab = "Agirlik",xlab = "Budama Yontemi")
+```
+
+```{r}
+ggline(BudamaYontem, x="grup",y="KavunAgr",
+       add = c("mean_se","jitter"),
+       order = c("A","B","C","D"),
+       ylab = "Agirlik",xlab = "Budama Yontemleri")
+```
+
+```{r}
+kruskal.test(KavunAgr~grup, data = BudamaYontem)
+
+```
+
+H0: gruplar arası ortalama değer aynıdır
+
+Ha: gruplar arası ortalama değer en az bi grupta farklıdır
+
+p değerim 0.05den küçük olduğundan H0 reddedildi
+
+```{r}
+pairwise.wilcox.test(BudamaYontem$KavunAgr,BudamaYontem$grup,p.adjust.method = "none",exact = F)
+
+```
+
+hangi grupların farklı olduğunu görüyoruz.
+
+```{r}
+library(clinfun)
+h1 <- c(24,26)
+h2 <- c(50,26,34,46,73)
+h3 <- c(75,80,72)
+h4 <- c(95,102,80)
+x <- c(h1,h2,h3,h4)
+n  <- c(length(h1),length(h2),length(h3),length(h4))
+hbtgrp <- as.ordered(factor(rep(1:length(n),n)))
+```
+
+```{r}
+jonckheere.test(x,hbtgrp,alternative = "two.sided")
+
+```
+
+H0: habitat bakımından kızkuşları aynı sayıdadır
+
+Ha: habitat bakımından kızkuşları farklı sayıdadır
+
+p degerim 0.05den kucuk geldiğinden H0 reddedilmiştir
+
+```{r}
+survival
+```
+
+# sayfa 250-251 alıştırmalarına dön bak
+
+```{r}
+library(clinfun)
+jonckheere.test(x = survival$dose,g = survival$surv,alternative = "two.sided")
+```
+
+dozların yaşama etkisi varmış. p degerim dusuk geldi cunku
+
+```{r}
+
+
+```
